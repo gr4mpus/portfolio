@@ -4238,3 +4238,941 @@ img.u-pull-left {
         right : 6vw;
     }
 }
+
+
+/* ===================================================================
+ * # THEME TOGGLE
+ * Neo-Brutalist + Spider-Verse Comic Theme System
+ * ------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------
+ * ## Theme CSS Variables (Default/Light Theme)
+ * -------------------------------------------------------------------- */
+:root {
+    /* Theme transition timing */
+    --theme-transition-duration: 250ms;
+    --theme-transition-easing: cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Default theme tokens (inherits existing dark theme) */
+    --theme-bg: var(--color-body);
+    --theme-fg: var(--color-text);
+    --theme-accent: var(--color-1);
+    --theme-border: var(--color-border);
+    --theme-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    --theme-texture: none;
+    
+    /* Comic-specific tokens (inactive by default) */
+    --comic-border-width: 0px;
+    --comic-shadow-offset: 0px;
+    --comic-dot-opacity: 0;
+    --comic-misregistration: 0px;
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist + Spider-Verse Comic Theme Variables
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] {
+    /* Comic Color Palette - High contrast Spider-Verse inspired */
+    --comic-red: #FF1744;
+    --comic-blue: #2979FF;
+    --comic-yellow: #FFEA00;
+    --comic-cyan: #00E5FF;
+    --comic-magenta: #FF4081;
+    --comic-off-white: #FFF8E7;
+    --comic-paper: #FFFEF5;
+    --comic-ink: #1A1A2E;
+    --comic-dark-blue: #0D0D1A;
+    
+    /* Theme tokens override */
+    --theme-bg: var(--comic-off-white);
+    --theme-fg: var(--comic-ink);
+    --theme-accent: var(--comic-red);
+    --theme-border: var(--comic-ink);
+    --theme-shadow: 4px 4px 0 var(--comic-ink);
+    
+    /* Comic-specific active tokens */
+    --comic-border-width: 3px;
+    --comic-shadow-offset: 4px;
+    --comic-dot-opacity: 0.08;
+    --comic-misregistration: 1px;
+    
+    /* Override existing color variables */
+    --color-body: var(--comic-off-white);
+    --color-text: var(--comic-ink);
+    --color-text-dark: var(--comic-ink);
+    --color-text-light: #4A4A5A;
+    --color-border: var(--comic-ink);
+    --color-1: var(--comic-red);
+    --color-1-dark: #D50000;
+    --color-1-darker: #B71C1C;
+    --color-btn: var(--comic-ink);
+    --color-btn-text: var(--comic-off-white);
+    --color-btn-hover: var(--comic-red);
+    --color-btn-hover-text: var(--comic-off-white);
+    --color-preloader-bg: var(--comic-off-white);
+    --color-loader: var(--comic-ink);
+    
+    /* Gray overrides for comic theme */
+    --color-gray-10: var(--comic-off-white);
+    --color-gray-9: var(--comic-paper);
+    --color-gray-8: #E8E0D0;
+    --color-gray-7: #6A6A7A;
+    --color-gray-4: #4A4A5A;
+}
+
+/* --------------------------------------------------------------------
+ * ## Ben-Day Dot / Halftone Texture (SVG Data URI)
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"]::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--comic-dot-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='2' cy='2' r='1.5' fill='%231A1A2E'/%3E%3Ccircle cx='12' cy='2' r='1' fill='%23FF1744'/%3E%3Ccircle cx='7' cy='7' r='1.2' fill='%232979FF'/%3E%3Ccircle cx='17' cy='7' r='0.8' fill='%231A1A2E'/%3E%3Ccircle cx='2' cy='12' r='1' fill='%23FFEA00'/%3E%3Ccircle cx='12' cy='12' r='1.5' fill='%231A1A2E'/%3E%3Ccircle cx='7' cy='17' r='0.8' fill='%23FF1744'/%3E%3Ccircle cx='17' cy='17' r='1.2' fill='%232979FF'/%3E%3C/svg%3E");
+    background-size: 20px 20px;
+}
+
+/* --------------------------------------------------------------------
+ * ## Theme Toggle Button Styles
+ * -------------------------------------------------------------------- */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 2px solid currentColor;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: var(--font-1);
+    font-size: var(--text-xs);
+    color: var(--color-text);
+    transition: 
+        transform var(--theme-transition-duration) var(--theme-transition-easing),
+        box-shadow var(--theme-transition-duration) var(--theme-transition-easing),
+        background-color var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+.theme-toggle:hover {
+    transform: scale(1.02);
+}
+
+.theme-toggle:focus {
+    outline: 3px solid var(--color-1);
+    outline-offset: 2px;
+}
+
+.theme-toggle:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.theme-toggle:focus-visible {
+    outline: 3px solid var(--color-1);
+    outline-offset: 2px;
+}
+
+/* Toggle Track */
+.theme-toggle__track {
+    position: relative;
+    width: 44px;
+    height: 24px;
+    background: var(--color-gray-7);
+    border-radius: 12px;
+    border: 2px solid currentColor;
+    transition: background-color var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+/* Toggle Thumb */
+.theme-toggle__thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    background: var(--color-white);
+    border-radius: 50%;
+    transition: transform var(--theme-transition-duration) var(--theme-transition-easing);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Toggle Label with Icons */
+.theme-toggle__label {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.theme-toggle__icon {
+    font-size: 1.25rem;
+    line-height: 1;
+    transition: 
+        opacity var(--theme-transition-duration) var(--theme-transition-easing),
+        transform var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+.theme-toggle__icon--light {
+    opacity: 1;
+}
+
+.theme-toggle__icon--comic {
+    opacity: 0.4;
+}
+
+/* Active State (Comic Theme ON) */
+[data-theme="neo-brutalist-comic"] .theme-toggle__track {
+    background: var(--comic-red);
+}
+
+[data-theme="neo-brutalist-comic"] .theme-toggle__thumb {
+    transform: translateX(20px);
+    background: var(--comic-yellow);
+}
+
+[data-theme="neo-brutalist-comic"] .theme-toggle__icon--light {
+    opacity: 0.4;
+}
+
+[data-theme="neo-brutalist-comic"] .theme-toggle__icon--comic {
+    opacity: 1;
+    animation: comic-pop 0.3s ease-out;
+}
+
+@keyframes comic-pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
+/* Desktop Toggle Position */
+.theme-toggle--desktop {
+    position: absolute;
+    right: 2rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: white;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.theme-toggle--desktop:hover {
+    transform: translateY(-50%) scale(1.02);
+    background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="neo-brutalist-comic"] .theme-toggle--desktop {
+    color: var(--comic-ink);
+    border-color: var(--comic-ink);
+    border-width: var(--comic-border-width);
+    box-shadow: 2px 2px 0 var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .theme-toggle--desktop:hover {
+    box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+/* Mobile Toggle Bar */
+.theme-toggle-mobile-bar {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99;
+    padding: 1rem;
+    background: var(--color-body);
+    border-top: 1px solid var(--color-border);
+    justify-content: center;
+    transition: 
+        background-color var(--theme-transition-duration) var(--theme-transition-easing),
+        border-color var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+[data-theme="neo-brutalist-comic"] .theme-toggle-mobile-bar {
+    background: var(--comic-paper);
+    border-top: var(--comic-border-width) solid var(--comic-ink);
+}
+
+.theme-toggle--mobile {
+    color: var(--color-text);
+    border-color: var(--color-border);
+}
+
+[data-theme="neo-brutalist-comic"] .theme-toggle--mobile {
+    color: var(--comic-ink);
+    border-color: var(--comic-ink);
+    border-width: var(--comic-border-width);
+    box-shadow: 2px 2px 0 var(--comic-ink);
+}
+
+/* ------------------------------------------------------------------- 
+ * responsive: theme toggle
+ * ------------------------------------------------------------------- */
+@media screen and (max-width: 800px) {
+    .theme-toggle--desktop {
+        display: none;
+    }
+    
+    .theme-toggle-mobile-bar {
+        display: flex;
+    }
+    
+    /* Add bottom padding to main content to prevent overlap */
+    .s-content {
+        padding-bottom: 80px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .theme-toggle__label {
+        display: none;
+    }
+}
+
+/* --------------------------------------------------------------------
+ * ## Page Wipe Transition on Theme Toggle
+ * -------------------------------------------------------------------- */
+.theme-transitioning::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--comic-red);
+    z-index: 9999;
+    animation: page-wipe 0.5s ease-in-out forwards;
+    pointer-events: none;
+}
+
+@keyframes page-wipe {
+    0% {
+        transform: scaleX(0);
+        transform-origin: left;
+    }
+    45% {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+    55% {
+        transform: scaleX(1);
+        transform-origin: right;
+    }
+    100% {
+        transform: scaleX(0);
+        transform-origin: right;
+    }
+}
+
+/* Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+    .theme-transitioning::after {
+        animation: none;
+        opacity: 0;
+    }
+    
+    .theme-toggle__thumb,
+    .theme-toggle__icon,
+    .theme-toggle__track,
+    .theme-toggle {
+        transition-duration: 0.01ms !important;
+    }
+    
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Global Element Styling
+ * -------------------------------------------------------------------- */
+
+/* Smooth transitions for theme changes */
+html {
+    transition: 
+        background-color var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+body,
+.s-header,
+.header-mobile,
+.main-nav ul,
+.btn,
+button,
+.timeline__block,
+.about-info__pic,
+.s-intro,
+.s-about,
+.s-contact,
+a {
+    transition: 
+        color var(--theme-transition-duration) var(--theme-transition-easing),
+        background-color var(--theme-transition-duration) var(--theme-transition-easing),
+        border-color var(--theme-transition-duration) var(--theme-transition-easing),
+        box-shadow var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Header Styles
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .s-header {
+    background: var(--comic-paper);
+    border-bottom: var(--comic-border-width) solid var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .header-mobile {
+    background: var(--comic-paper);
+    border-bottom: var(--comic-border-width) solid var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .main-nav ul {
+    background: var(--comic-paper);
+    border-color: var(--comic-ink);
+    border-width: var(--comic-border-width);
+}
+
+[data-theme="neo-brutalist-comic"] .main-nav li {
+    border-color: var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .main-nav a {
+    color: var(--comic-ink);
+    font-weight: 700;
+    letter-spacing: 0.4em;
+}
+
+[data-theme="neo-brutalist-comic"] .main-nav a:hover,
+[data-theme="neo-brutalist-comic"] .main-nav a:focus {
+    color: var(--comic-red);
+    background: var(--comic-yellow);
+}
+
+[data-theme="neo-brutalist-comic"] .main-nav .current a {
+    background: var(--comic-ink);
+    color: var(--comic-off-white);
+}
+
+[data-theme="neo-brutalist-comic"] .mobile-home-link a,
+[data-theme="neo-brutalist-comic"] .home-link {
+    color: var(--comic-ink);
+    font-weight: 900;
+}
+
+[data-theme="neo-brutalist-comic"] .mobile-menu-toggle span,
+[data-theme="neo-brutalist-comic"] .mobile-menu-toggle span::before,
+[data-theme="neo-brutalist-comic"] .mobile-menu-toggle span::after {
+    background-color: var(--comic-ink);
+    height: 3px;
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Buttons
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .btn,
+[data-theme="neo-brutalist-comic"] button,
+[data-theme="neo-brutalist-comic"] input[type="submit"],
+[data-theme="neo-brutalist-comic"] input[type="button"] {
+    background: var(--comic-ink);
+    color: var(--comic-off-white);
+    border: var(--comic-border-width) solid var(--comic-ink);
+    box-shadow: var(--comic-shadow-offset) var(--comic-shadow-offset) 0 var(--comic-ink);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    position: relative;
+}
+
+[data-theme="neo-brutalist-comic"] .btn:hover,
+[data-theme="neo-brutalist-comic"] button:hover,
+[data-theme="neo-brutalist-comic"] input[type="submit"]:hover,
+[data-theme="neo-brutalist-comic"] input[type="button"]:hover {
+    background: var(--comic-red);
+    color: var(--comic-off-white);
+    border-color: var(--comic-ink);
+    transform: translate(-2px, -2px);
+    box-shadow: calc(var(--comic-shadow-offset) + 2px) calc(var(--comic-shadow-offset) + 2px) 0 var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .btn:active,
+[data-theme="neo-brutalist-comic"] button:active {
+    transform: translate(2px, 2px);
+    box-shadow: 0 0 0 var(--comic-ink);
+}
+
+/* Comic Caption Chip Style for Primary Button */
+[data-theme="neo-brutalist-comic"] .btn.btn--primary,
+[data-theme="neo-brutalist-comic"] .btn--primary {
+    background: var(--comic-yellow);
+    color: var(--comic-ink);
+    border-color: var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .btn.btn--primary:hover,
+[data-theme="neo-brutalist-comic"] .btn--primary:hover {
+    background: var(--comic-red);
+    color: var(--comic-off-white);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Typography
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .text-huge-title {
+    color: var(--comic-ink);
+    font-weight: 900;
+    text-shadow: 
+        var(--comic-misregistration) var(--comic-misregistration) 0 var(--comic-cyan),
+        calc(var(--comic-misregistration) * -1) calc(var(--comic-misregistration) * -1) 0 var(--comic-magenta);
+    letter-spacing: -0.02em;
+}
+
+[data-theme="neo-brutalist-comic"] .text-pretitle {
+    color: var(--comic-red);
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+}
+
+[data-theme="neo-brutalist-comic"] .text-pretitle.with-line::before {
+    background-color: var(--comic-red);
+    height: 0px;
+}
+
+[data-theme="neo-brutalist-comic"] h1,
+[data-theme="neo-brutalist-comic"] h2,
+[data-theme="neo-brutalist-comic"] h3,
+[data-theme="neo-brutalist-comic"] h4 {
+    color: var(--comic-ink);
+    font-weight: 800;
+}
+
+[data-theme="neo-brutalist-comic"] .h1 {
+    color: var(--comic-ink);
+    font-weight: 800;
+}
+
+[data-theme="neo-brutalist-comic"] p,
+[data-theme="neo-brutalist-comic"] .attention-getter {
+    color: var(--comic-ink);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Intro Section
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .s-intro {
+    background: var(--comic-off-white);
+}
+
+[data-theme="neo-brutalist-comic"] .intro-social li a {
+    color: var(--comic-ink);
+    font-weight: 700;
+    border: var(--comic-border-width) solid transparent;
+    padding: 0.25rem 0.5rem;
+    transition: all var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+[data-theme="neo-brutalist-comic"] .intro-social li a:hover {
+    color: var(--comic-off-white);
+    background: var(--comic-ink);
+    border-color: var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .intro-scrolldown svg path {
+    fill: var(--comic-ink);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - About Section
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .s-about {
+    background: var(--comic-paper);
+}
+
+[data-theme="neo-brutalist-comic"] .about-info__pic {
+    border: var(--comic-border-width) solid var(--comic-ink);
+    box-shadow: 8px 8px 0 var(--comic-ink);
+    transition: 
+        transform var(--theme-transition-duration) var(--theme-transition-easing),
+        box-shadow var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+[data-theme="neo-brutalist-comic"] .about-info__pic:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 12px 12px 0 var(--comic-ink);
+}
+
+/* Creative fix: Make text readable when overlapped by dark shadow */
+[data-theme="neo-brutalist-comic"] .about-info__text {
+    position: relative;
+    z-index: 2;
+}
+
+/* Add comic-style speech bubble effect with halftone dots background */
+[data-theme="neo-brutalist-comic"] .about-info__text .attention-getter {
+    background: var(--comic-paper);
+    padding: var(--vspace-1_5);
+    margin: var(--vspace-1) 0;
+    border: 3px solid var(--comic-ink);
+    box-shadow: 4px 4px 0 var(--comic-yellow);
+    position: relative;
+    color: var(--comic-ink);
+}
+
+/* Add halftone dot pattern to text background for comic effect */
+[data-theme="neo-brutalist-comic"] .about-info__text .attention-getter::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0.03;
+    pointer-events: none;
+    background-image: 
+        radial-gradient(circle, var(--comic-red) 1px, transparent 1px);
+    background-size: 8px 8px;
+    z-index: -1;
+}
+
+/* Comic speech bubble tail pointing to image */
+[data-theme="neo-brutalist-comic"] .about-info__text .attention-getter::after {
+    content: '';
+    position: absolute;
+    left: -15px;
+    top: 30%;
+    width: 0;
+    height: 0;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+    border-right: 15px solid var(--comic-ink);
+}
+
+/* Inner tail for the bubble effect */
+[data-theme="neo-brutalist-comic"] .about-info__text .text-pretitle {
+    position: relative;
+    z-index: 3;
+    background: var(--comic-yellow);
+    padding: 0.5rem 1rem;
+    display: inline-block;
+    border: 2px solid var(--comic-ink);
+    box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+/* Skills List - Comic Tag Style */
+[data-theme="neo-brutalist-comic"] .skills-list li {
+    background: var(--comic-yellow);
+    color: var(--comic-ink);
+    padding: 0.5rem 1rem;
+    margin: 0.25rem;
+    border: var(--comic-border-width) solid var(--comic-ink);
+    box-shadow: 3px 3px 0 var(--comic-ink);
+    font-weight: 800;
+    display: inline-block;
+    transition: 
+        transform var(--theme-transition-duration) var(--theme-transition-easing),
+        box-shadow var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+[data-theme="neo-brutalist-comic"] .skills-list li:hover {
+    transform: translate(-2px, -2px) scale(1.02);
+    box-shadow: 5px 5px 0 var(--comic-ink);
+    background: var(--comic-red);
+    color: var(--comic-off-white);
+}
+
+[data-theme="neo-brutalist-comic"] .skills-list li:not(:last-child)::after {
+    content: none;
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Timeline
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .timeline::before {
+    background-color: var(--comic-ink);
+    width: 3px;
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__bullet {
+    background-color: var(--comic-red);
+    border: 3px solid var(--comic-ink);
+    width: 14px;
+    height: 14px;
+    left: -3px;
+    box-shadow: 2px 2px 0 var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__block {
+    padding: 1rem 1.5rem;
+    margin-left: 1rem;
+    margin-bottom: 1.5rem;
+    background: var(--comic-off-white);
+    border: var(--comic-border-width) solid var(--comic-ink);
+    box-shadow: 4px 4px 0 var(--comic-ink);
+    position: relative;
+    transition: 
+        transform var(--theme-transition-duration) var(--theme-transition-easing),
+        box-shadow var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__block:hover {
+    transform: translate(-2px, -2px) scale(1.02);
+    box-shadow: 6px 6px 0 var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__title {
+    color: var(--comic-ink);
+    font-weight: 900;
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__meta {
+    color: var(--comic-red);
+    font-weight: 700;
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__timeframe {
+    color: var(--comic-ink);
+    background: var(--comic-yellow);
+    padding: 0.25rem 0.75rem;
+    display: inline-block;
+    border: 2px solid var(--comic-ink);
+    font-weight: 800;
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__desc p {
+    color: var(--comic-ink);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Contact Section
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .s-contact {
+    background: var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .s-contact .text-pretitle {
+    color: var(--comic-yellow);
+}
+
+[data-theme="neo-brutalist-comic"] .s-contact .h1,
+[data-theme="neo-brutalist-comic"] .s-contact h1,
+[data-theme="neo-brutalist-comic"] .s-contact p {
+    color: var(--comic-off-white);
+}
+
+[data-theme="neo-brutalist-comic"] .contact-links a {
+    color: var(--comic-cyan);
+    font-weight: 700;
+}
+
+[data-theme="neo-brutalist-comic"] .contact-links a:hover {
+    color: var(--comic-yellow);
+}
+
+[data-theme="neo-brutalist-comic"] .contact-social a {
+    color: var(--comic-off-white);
+    font-weight: 700;
+}
+
+[data-theme="neo-brutalist-comic"] .contact-social a:hover {
+    color: var(--comic-red);
+}
+
+[data-theme="neo-brutalist-comic"] .contact-btn {
+    background: var(--comic-red);
+    color: var(--comic-off-white);
+    border: var(--comic-border-width) solid var(--comic-off-white);
+    box-shadow: 4px 4px 0 var(--comic-off-white);
+}
+
+[data-theme="neo-brutalist-comic"] .contact-btn:hover {
+    background: var(--comic-yellow);
+    color: var(--comic-ink);
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--comic-off-white);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Circles Animation
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .circles span {
+    border-color: var(--comic-ink);
+    opacity: 0.08;
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Links
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] a {
+    color: var(--comic-red);
+    font-weight: 600;
+}
+
+[data-theme="neo-brutalist-comic"] a:hover {
+    color: var(--comic-blue);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Motion Lines on Hover (Parallax Dots)
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .timeline__block::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: -20px;
+    width: 15px;
+    height: 3px;
+    background: var(--comic-ink);
+    opacity: 0;
+    transition: 
+        opacity var(--theme-transition-duration) var(--theme-transition-easing),
+        transform var(--theme-transition-duration) var(--theme-transition-easing);
+    transform: translateX(-10px);
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__block::after {
+    content: '';
+    position: absolute;
+    top: calc(50% + 8px);
+    right: -15px;
+    width: 10px;
+    height: 3px;
+    background: var(--comic-red);
+    opacity: 0;
+    transition: 
+        opacity var(--theme-transition-duration) var(--theme-transition-easing),
+        transform var(--theme-transition-duration) var(--theme-transition-easing);
+    transform: translateX(-10px);
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__block:hover::before {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+[data-theme="neo-brutalist-comic"] .timeline__block:hover::after {
+    opacity: 1;
+    transform: translateX(0);
+    transition-delay: 0.05s;
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Preloader
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] #preloader {
+    background: var(--comic-off-white);
+}
+
+[data-theme="neo-brutalist-comic"] #loader {
+    background-color: var(--comic-red);
+    border: 3px solid var(--comic-ink);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Go Top Button
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] .ss-go-top a {
+    background: var(--comic-yellow);
+    border: var(--comic-border-width) solid var(--comic-ink);
+    box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .ss-go-top a:hover {
+    background: var(--comic-red);
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] .ss-go-top svg path {
+    fill: var(--comic-ink);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Form Inputs
+ * -------------------------------------------------------------------- */
+[data-theme="neo-brutalist-comic"] input[type="email"],
+[data-theme="neo-brutalist-comic"] input[type="text"],
+[data-theme="neo-brutalist-comic"] input[type="tel"],
+[data-theme="neo-brutalist-comic"] input[type="url"],
+[data-theme="neo-brutalist-comic"] textarea {
+    background: var(--comic-off-white);
+    border: 2px solid var(--comic-ink);
+    border-bottom-width: 3px;
+    color: var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] input[type="email"]:focus,
+[data-theme="neo-brutalist-comic"] input[type="text"]:focus,
+[data-theme="neo-brutalist-comic"] input[type="tel"]:focus,
+[data-theme="neo-brutalist-comic"] textarea:focus {
+    border-color: var(--comic-red);
+    box-shadow: 3px 3px 0 var(--comic-ink);
+}
+
+/* --------------------------------------------------------------------
+ * ## Neo-Brutalist Comic Theme - Responsive Adjustments
+ * -------------------------------------------------------------------- */
+@media screen and (max-width: 800px) {
+    [data-theme="neo-brutalist-comic"] .main-nav a {
+        color: var(--comic-ink);
+        border-bottom: 2px solid transparent;
+    }
+    
+    [data-theme="neo-brutalist-comic"] .main-nav a:hover {
+        background: var(--comic-yellow);
+    }
+    
+    [data-theme="neo-brutalist-comic"] .main-nav-wrap {
+        background: var(--comic-paper);
+        border-bottom: var(--comic-border-width) solid var(--comic-ink);
+    }
+    
+    [data-theme="neo-brutalist-comic"] .timeline__block {
+        margin-left: 0.5rem;
+    }
+    
+    [data-theme="neo-brutalist-comic"] .timeline__block::before,
+    [data-theme="neo-brutalist-comic"] .timeline__block::after {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    [data-theme="neo-brutalist-comic"] .text-huge-title {
+        text-shadow: 
+            1px 1px 0 var(--comic-cyan),
+            -1px -1px 0 var(--comic-magenta);
+    }
+    
+    [data-theme="neo-brutalist-comic"] .about-info__pic {
+        box-shadow: 4px 4px 0 var(--comic-ink);
+    }
+    
+    /* Adjust speech bubble for mobile */
+    [data-theme="neo-brutalist-comic"] .about-info__text .attention-getter {
+        padding: var(--vspace-1);
+        font-size: var(--text-size);
+        text-shadow: 
+            0.5px 0.5px 0 var(--comic-yellow),
+            -0.5px -0.5px 0 var(--comic-yellow);
+    }
+    
+    [data-theme="neo-brutalist-comic"] .about-info__text .attention-getter::after {
+        left: -10px;
+        border-right-width: 10px;
+        border-top-width: 10px;
+        border-bottom-width: 10px;
+    }
+}
+
+/* Ensure no layout shifts */
+[data-theme="neo-brutalist-comic"] .s-pagewrap,
+[data-theme="neo-brutalist-comic"] .s-content,
+[data-theme="neo-brutalist-comic"] .row {
+    position: relative;
+    z-index: 1;
+}

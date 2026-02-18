@@ -10,6 +10,126 @@
     html.className = html.className.replace(/\bno-js\b/g, '') + ' js ';
 
 
+   /* Theme Toggle
+    * -------------------------------------------------- */
+    const ssThemeToggle = function() {
+        const THEME_KEY = 'rahul-portfolio-theme';
+        const COMIC_THEME = 'neo-brutalist-comic';
+        const desktopToggle = document.getElementById('theme-toggle-desktop');
+        const mobileToggle = document.getElementById('theme-toggle-mobile');
+        const toggles = [desktopToggle, mobileToggle].filter(Boolean);
+        
+        if (toggles.length === 0) return;
+        
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        
+        // Get saved theme from localStorage or check system preference
+        function getSavedTheme() {
+            const saved = localStorage.getItem(THEME_KEY);
+            if (saved) return saved;
+            
+            // Optional: Check system preference for dark mode
+            // If user prefers dark mode, we could default to the original dark theme
+            // For now, we default to no theme (original dark theme)
+            return null;
+        }
+        
+        // Apply theme to document
+        function applyTheme(theme) {
+            if (theme === COMIC_THEME) {
+                html.setAttribute('data-theme', COMIC_THEME);
+                updateToggleState(true);
+                switchProfileImage(true); // Use neo image
+            } else {
+                html.removeAttribute('data-theme');
+                updateToggleState(false);
+                switchProfileImage(false); // Use original image
+            }
+        }
+        
+        // Switch profile image based on theme
+        function switchProfileImage(isComicTheme) {
+            const profileImg = document.querySelector('.about-info__pic');
+            if (profileImg) {
+                if (isComicTheme) {
+                    profileImg.src = 'images/rahul-photo-neo.jpg';
+                } else {
+                    profileImg.src = 'images/rahul-photo.jpg';
+                }
+            }
+        }
+        
+        // Update all toggle button states
+        function updateToggleState(isComic) {
+            toggles.forEach(toggle => {
+                toggle.setAttribute('aria-checked', isComic ? 'true' : 'false');
+            });
+        }
+        
+        // Toggle theme with optional animation
+        function toggleTheme() {
+            const currentTheme = html.getAttribute('data-theme');
+            const isCurrentlyComic = currentTheme === COMIC_THEME;
+            const newTheme = isCurrentlyComic ? null : COMIC_THEME;
+            
+            // Add page wipe animation (respects reduced motion)
+            if (!prefersReducedMotion) {
+                html.classList.add('theme-transitioning');
+                
+                // Apply theme in the middle of the animation
+                setTimeout(() => {
+                    applyTheme(newTheme);
+                    
+                    // Save preference
+                    if (newTheme) {
+                        localStorage.setItem(THEME_KEY, newTheme);
+                    } else {
+                        localStorage.removeItem(THEME_KEY);
+                    }
+                }, 225); // Middle of 500ms animation
+                
+                // Remove transitioning class after animation completes
+                setTimeout(() => {
+                    html.classList.remove('theme-transitioning');
+                }, 500);
+            } else {
+                // Instant switch for reduced motion
+                applyTheme(newTheme);
+                
+                // Save preference
+                if (newTheme) {
+                    localStorage.setItem(THEME_KEY, newTheme);
+                } else {
+                    localStorage.removeItem(THEME_KEY);
+                }
+            }
+        }
+        
+        // Handle keyboard events
+        function handleKeydown(event) {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                toggleTheme();
+            }
+        }
+        
+        // Initialize
+        function init() {
+            // Apply saved theme on load
+            const savedTheme = getSavedTheme();
+            applyTheme(savedTheme);
+            
+            // Add event listeners to all toggles
+            toggles.forEach(toggle => {
+                toggle.addEventListener('click', toggleTheme);
+                toggle.addEventListener('keydown', handleKeydown);
+            });
+        }
+        
+        init();
+    }; // end ssThemeToggle
+
 
    /* Animations
     * -------------------------------------------------- */
@@ -145,26 +265,32 @@
         
             // Get current scroll position
             let scrollY = window.pageYOffset;
+            let activeSectionId = null;
         
-            // Loop through sections to get height(including padding and border), 
-            // top and ID values for each
+            // Loop through sections to find the currently active one
             sections.forEach(function(current) {
                 const sectionHeight = current.offsetHeight;
                 const sectionTop = current.offsetTop - 50;
                 const sectionId = current.getAttribute("id");
             
-               /* If our current scroll position enters the space where current section 
-                * on screen is, add .current class to parent element(li) of the thecorresponding 
-                * navigation link, else remove it. To know which link is active, we use 
-                * sectionId variable we are getting while looping through sections as 
-                * an selector
-                */
+                // Check if current scroll position is within this section
                 if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    document.querySelector(".main-nav a[href*=" + sectionId + "]").parentNode.classList.add("current");
-                } else {
-                    document.querySelector(".main-nav a[href*=" + sectionId + "]").parentNode.classList.remove("current");
+                    activeSectionId = sectionId;
                 }
             });
+            
+            // Remove 'current' class from all nav items and add it only to the active one
+            document.querySelectorAll(".main-nav li").forEach(function(li) {
+                li.classList.remove("current");
+            });
+            
+            // Add 'current' class to the active section's nav link
+            if (activeSectionId) {
+                const activeLink = document.querySelector(".main-nav a[href*=" + activeSectionId + "]");
+                if (activeLink) {
+                    activeLink.parentNode.classList.add("current");
+                }
+            }
         }
 
     }; // end ssScrollSpy
@@ -350,6 +476,7 @@
     * ------------------------------------------------------ */
     (function ssInit() {
 
+        ssThemeToggle();
         ssPreloader();
         ssMobileMenu();
         ssScrollSpy();

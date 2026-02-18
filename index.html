@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js ss-preload" lang="en">
+
 <head>
 
     <!--- basic page needs
@@ -17,6 +18,17 @@
     ================================================== -->
     <link rel="stylesheet" href="css/vendor.css">
     <link rel="stylesheet" href="css/styles.css">
+
+    <!-- Theme Initialization (prevent flash of wrong theme)
+    ================================================== -->
+    <script>
+        (function () {
+            var theme = localStorage.getItem('rahul-portfolio-theme');
+            if (theme === 'neo-brutalist-comic') {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+        })();
+    </script>
 
     <!-- favicons
     ================================================== -->
@@ -69,10 +81,34 @@
                         <li><a href="#experience" class="smoothscroll">Experience</a></li>
                         <li><a href="#contact" class="smoothscroll">Say Hello</a></li>
                     </ul>
+                    <!-- Theme Toggle (Desktop) -->
+                    <button class="theme-toggle theme-toggle--desktop" role="switch" aria-checked="false"
+                        aria-label="Toggle Neo-Brutalist Comic Theme" id="theme-toggle-desktop">
+                        <span class="theme-toggle__track">
+                            <span class="theme-toggle__thumb"></span>
+                        </span>
+                        <span class="theme-toggle__label">
+                            <span class="theme-toggle__icon theme-toggle__icon--light">☀️</span>
+                            <span class="theme-toggle__icon theme-toggle__icon--comic">💥</span>
+                        </span>
+                    </button>
                 </nav>
             </div>
 
         </header> <!-- end s-header -->
+
+        <!-- Theme Toggle (Mobile - Sticky Bottom Bar) -->
+        <div class="theme-toggle-mobile-bar" id="theme-toggle-mobile-bar">
+            <button class="theme-toggle theme-toggle--mobile" role="switch" aria-checked="false"
+                aria-label="Toggle Neo-Brutalist Comic Theme" id="theme-toggle-mobile">
+                <span class="theme-toggle__track">
+                    <span class="theme-toggle__thumb"></span>
+                </span>
+                <span class="theme-toggle__label">
+                    <span class="theme-toggle__icon theme-toggle__icon--light">☀️</span>
+                </span>
+            </button>
+        </div>
 
 
         <!-- ## main content
@@ -101,13 +137,17 @@
                     <ul class="intro-social">
                         <li><a target="_blank" href="https://github.com/gr4mpus">Github</a></li>
                         <li><a target="_blank" href="https://www.linkedin.com/in/grampus/">Linkedin</a></li>
-                        <li><a target="_blank" href="https://www.instagram.com/gr4mpus/">Instagram</a></li>
+                        <li><a target="_blank" href="https://www.instagram.com/0rca96/">Instagram</a></li>
                     </ul>
 
                 </div> <!-- end intro content -->
 
                 <a href="#about" class="intro-scrolldown smoothscroll">
-                    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z"/></svg>
+                    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                        fill-rule="evenodd" clip-rule="evenodd">
+                        <path
+                            d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z" />
+                    </svg>
                 </a>
 
             </section> <!-- end s-intro -->
@@ -125,15 +165,24 @@
                     </div>
 
                     <div class="column lg-6 md-12">
-                        <div class="about-info__text" >
+                        <div class="about-info__text">
 
                             <h2 class="text-pretitle with-line" data-animate-el>
                                 About
                             </h2>
                             <p class="attention-getter" data-animate-el>
-                                Experienced Frontend Developer with nearly 6 years of expertise in building scalable, high-performance web applications using React.js, JavaScript, HTML5, CSS3, and modern UI frameworks. Skilled in creating reusable components, optimizing performance, and delivering pixel-perfect, responsive designs across devices and browsers. Strong background in integrating RESTful APIs, ensuring accessibility (WCAG compliance), and collaborating within agile, cross-functional teams. Proven track record of improving application efficiency, user engagement, and maintainability. Passionate about clean code, continuous learning, and driving digital innovation to support business goals and enhance user experience.
+                                Experienced Frontend Developer with nearly 6 years of expertise in building scalable,
+                                high-performance web applications using React.js, JavaScript, HTML5, CSS3, and modern UI
+                                frameworks. Skilled in creating reusable components, optimizing performance, and
+                                delivering pixel-perfect, responsive designs across devices and browsers. Strong
+                                background in integrating RESTful APIs, ensuring accessibility (WCAG compliance), and
+                                collaborating within agile, cross-functional teams. Proven track record of improving
+                                application efficiency, user engagement, and maintainability. Passionate about clean
+                                code, continuous learning, and driving digital innovation to support business goals and
+                                enhance user experience.
                             </p>
-                            <a target="_blank" href="./RahulPrasad_ReactDeveloper_6YOE.pdf" class="btn btn--medium u-fullwidth" data-animate-el>Download CV</a>
+                            <a target="_blank" href="./Rahul_Prasad_Senior_Frontend_Developer.pdf"
+                                class="btn btn--medium u-fullwidth" data-animate-el>Download CV</a>
 
                         </div>
                     </div>
@@ -148,10 +197,12 @@
                         <ul class="skills-list h1" data-animate-el>
                             <li>React</li>
                             <li>Angular</li>
+                            <li>AEM Frontend</li>
                             <li>Accessibility</li>
                             <li>Analytics</li>
                             <li>Data Visualisation</li>
                             <li>Node.js</li>
+                            <li>Gen AI Integration</li>
                         </ul>
 
                         <div class="timeline" data-animate-el>
@@ -159,21 +210,25 @@
                                 <div class="timeline__bullet"></div>
                                 <div class="timeline__header">
                                     <h4 class="timeline__title">Languages</h3>
-                                    <h5 class="timeline__meta">Javascript, TypeScript, HTML, CSS, Java, CSS3, SCSS, Less/Sass</h5>
+                                        <h5 class="timeline__meta">Javascript, TypeScript, HTML, CSS, Java, CSS3, SCSS,
+                                            Less/Sass</h5>
                                 </div>
                             </div>
                             <div class="timeline__block">
                                 <div class="timeline__bullet"></div>
                                 <div class="timeline__header">
                                     <h4 class="timeline__title">Frameworks/Libraries</h3>
-                                    <h5 class="timeline__meta">React, Angular, Bootstrap, jQuery, Redux, Context API, Jest, React Routers, GraphQL, Webpack</h5>
+                                        <h5 class="timeline__meta">React, Angular, Bootstrap, jQuery, Redux, Context
+                                            API, Jest, React Routers, GraphQL, Webpack</h5>
                                 </div>
                             </div>
                             <div class="timeline__block">
                                 <div class="timeline__bullet"></div>
                                 <div class="timeline__header">
                                     <h4 class="timeline__title">Other Skills</h3>
-                                    <h5 class="timeline__meta">RESTful API, Integration, GraphQL, npm, Git, Jenkins, Agile Methodologies, Accessibility Standards, Responsive Web Development, Web Analytics, Webpack, Data Structures and Algorithms</h5>
+                                        <h5 class="timeline__meta">RESTful API, Integration, GraphQL, npm, Git, Jenkins,
+                                            Agile Methodologies, Accessibility Standards, Responsive Web Development,
+                                            Web Analytics, Webpack, Data Structures and Algorithms</h5>
                                 </div>
                             </div>
                         </div>
@@ -182,7 +237,7 @@
                 </div> <!-- end about-expertise -->
 
 
-                <div id="experience" class="row about-timelines" data-animate-block>
+                <div id="experience" class="row about-timelines target-section" data-animate-block>
 
                     <div class="column lg-6 tab-12">
 
@@ -195,28 +250,63 @@
                             <div class="timeline__block">
                                 <div class="timeline__bullet"></div>
                                 <div class="timeline__header">
-                                    <h4 class="timeline__title">Publicis Sapient</h3>
-                                    <h5 class="timeline__meta">Associate Technology</h5>
-                                    <p class="timeline__timeframe">October 2019 - Present</p>
+                                    <h4 class="timeline__title">Kaiser Permanente</h3>
+                                        <h5 class="timeline__meta">Senior IT Engineer - Web Applications</h5>
+                                        <p class="timeline__timeframe">July 2025 - Present</p>
                                 </div>
                                 <div class="timeline__desc">
-                                    <p>Developed modular style sheets utilising SASS for a multilingual website, resulting in a 40%
-                                        decrease in CSS file size for the site and increasing maintainability and flexibility.
-                                        Customised existing style dictionary to be used by the entire team for development
-                                        purposes.</p>
-                                    <p>
-                                        Led custom components for the platform. Used React and Vanilla JavaScript at the 
-                                        component level based on requirements.
+                                    <p>Built a full-stack JSON Visualizer developer tool within AEM featuring
+                                        interactive SVG graph rendering,
+                                        real-time node editing, tag-to-JSON conversion with cascading dropdowns, and DAM
+                                        upload with conflict
+                                        resolution.
                                     </p>
                                     <p>
-                                        Enhanced accessibility compliance by adhering to WCAG standards, improving usability .
+                                        Led migration of legacy HR system from jQuery/Angular to React with TypeScript,
+                                        improving code maintainability and reducing debug cycles
                                     </p>
                                     <p>
-                                        Implemented analytics to track form abandonment, identifying key friction points and optimizing user flows, resulting in a 15% increase in customer conversions.
+                                        Built role-based permission and impersonation control system for healthcare
+                                        compliance requirements.
+                                    </p>
+                                    <p>
+                                        Implemented WCAG 2.1 AA accessibility standards across all features, achieving
+                                        90+ Lighthouse scores and
+                                        passing ADA compliance audits
                                     </p>
                                 </div>
                             </div>
-    
+
+                            <div class="timeline__block">
+                                <div class="timeline__bullet"></div>
+                                <div class="timeline__header">
+                                    <h4 class="timeline__title">Publicis Sapient</h3>
+                                        <h5 class="timeline__meta">Associate Technology</h5>
+                                        <p class="timeline__timeframe">October 2019 - Present</p>
+                                </div>
+                                <div class="timeline__desc">
+                                    <p>Developed modular style sheets utilising SASS for a multilingual website,
+                                        resulting in a 40%
+                                        decrease in CSS file size for the site and increasing maintainability and
+                                        flexibility.
+                                        Customised existing style dictionary to be used by the entire team for
+                                        development
+                                        purposes.</p>
+                                    <p>
+                                        Led custom components for the platform. Used React and Vanilla JavaScript at the
+                                        component level based on requirements.
+                                    </p>
+                                    <p>
+                                        Enhanced accessibility compliance by adhering to WCAG standards, improving
+                                        usability .
+                                    </p>
+                                    <p>
+                                        Implemented analytics to track form abandonment, identifying key friction points
+                                        and optimizing user flows, resulting in a 15% increase in customer conversions.
+                                    </p>
+                                </div>
+                            </div>
+
                             <div class="timeline__block">
                                 <div class="timeline__bullet"></div>
                                 <div class="timeline__header">
@@ -226,20 +316,26 @@
                                 </div>
                                 <div class="timeline__desc">
                                     <p>
-                                        Implemented a responsive user interface for a web application using React. Integrated the API calls. Contributed to design planning and user experience to boost overall customer satisfaction ratings
+                                        Implemented a responsive user interface for a web application using React.
+                                        Integrated the API calls. Contributed to design planning and user experience to
+                                        boost overall customer satisfaction ratings
                                     </p>
                                     <p>
-                                        Automated testing with Selenium (Java) for both iOS and web platforms; streamlined the quality assurance process, reducing testing time and enhancing test coverage by 20%
+                                        Automated testing with Selenium (Java) for both iOS and web platforms;
+                                        streamlined the quality assurance process, reducing testing time and enhancing
+                                        test coverage by 20%
                                     </p>
                                     <p>
                                         Developed the demo project for the network operator dashboard for MWC 2020
                                     </p>
                                     <p>
-                                        Crafted data visualization libraries with React to transform complex network logs into interactive dashboards. Optimised the existing app by creating reusable components and reduced API calls.
+                                        Crafted data visualization libraries with React to transform complex network
+                                        logs into interactive dashboards. Optimised the existing app by creating
+                                        reusable components and reduced API calls.
                                     </p>
                                 </div>
                             </div>
-    
+
                         </div> <!-- end timeline -->
 
                     </div> <!-- end column -->
@@ -256,31 +352,22 @@
                                 <div class="timeline__bullet"></div>
                                 <div class="timeline__header">
                                     <h4 class="timeline__title">Guru Gobind Singh Indraprastha University</h3>
-                                    <h5 class="timeline__meta">Bachelor in Technology - Computer Science</h5>
-                                    <p class="timeline__timeframe">August 2015 - May 2019</p>
-                                </div>
-                            </div>
-    
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Higher Secondary Certification - XII</h4>
-                                    <h5 class="timeline__meta">Gagan Bharti Senior Secondary Public School</h5>
-                                    <p class="timeline__timeframe">April 2014 -  May 2015</p>
+                                        <h5 class="timeline__meta">Bachelor in Technology - Computer Science</h5>
+                                        <p class="timeline__timeframe">August 2015 - May 2019</p>
                                 </div>
                             </div>
 
                             <div class="timeline__block">
                                 <div class="timeline__bullet"></div>
                                 <div class="timeline__header">
-                                    <h4 class="timeline__title">Secondary School Certification - X</h4>
+                                    <h4 class="timeline__title">Higher Secondary Certification - XII</h4>
                                     <h5 class="timeline__meta">Gagan Bharti Senior Secondary Public School</h5>
-                                    <p class="timeline__timeframe">April 2011 -  May 2012</p>
+                                    <p class="timeline__timeframe">April 2014 - May 2015</p>
                                 </div>
                             </div>
-    
+
                         </div> <!-- end timeline -->
-                        
+
                     </div> <!-- end column -->
 
 
@@ -301,8 +388,8 @@
                         </h2>
 
                         <p class="h1">
-                            I love to hear from you.
-                            Whether you have a question or just 
+                            I would love to hear from you.
+                            Whether you have a question or just
                             want to chat about tech & art — shoot me a message.
                         </p>
                     </div>
@@ -321,11 +408,12 @@
                         <ul class="contact-social">
                             <li><a target="_blank" href="https://github.com/gr4mpus">Github</a></li>
                             <li><a target="_blank" href="https://www.linkedin.com/in/grampus/">Linkedin</a></li>
-                            <li><a target="_blank" href="https://www.instagram.com/gr4mpus/">Instagram</a></li>
+                            <li><a target="_blank" href="https://www.instagram.com/0rca96/">Instagram</a></li>
                         </ul>
                     </div>
                     <div class="column lg-4 md-12 contact-block">
-                        <a href="mailto:rahul.prsd.in@gmail.com" class="mailtoui btn btn--medium u-fullwidth contact-btn">Say Hello.</a>
+                        <a href="mailto:rahul.prsd.in@gmail.com"
+                            class="mailtoui btn btn--medium u-fullwidth contact-btn">Say Hello.</a>
                     </div>
                 </div> <!-- end contact-bottom -->
 
@@ -343,4 +431,5 @@
     <script src="js/main.js"></script>
 
 </body>
+
 </html>
