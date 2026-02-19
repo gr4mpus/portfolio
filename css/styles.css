@@ -1632,6 +1632,7 @@ li {
     display : list-item;
 }
 
+
 ol,
 ul {
     margin-left : 1.6rem;
@@ -5014,6 +5015,25 @@ a {
 
 [data-theme="neo-brutalist-comic"] a:hover {
     color: var(--comic-blue);
+}
+
+[data-theme="neo-brutalist-comic"] p a {
+    color: var(--comic-red);
+    font-weight: 600;
+    transition: 
+        transform var(--theme-transition-duration) var(--theme-transition-easing),
+        color var(--theme-transition-duration) var(--theme-transition-easing),
+        box-shadow var(--theme-transition-duration) var(--theme-transition-easing);
+}
+
+[data-theme="neo-brutalist-comic"] p:has(a):hover {
+    color: white;
+    transform: translate(-2px, -2px) scale(1.02);
+    box-shadow: 6px 6px 0 var(--comic-ink);
+}
+
+[data-theme="neo-brutalist-comic"] p a:hover {
+    color:  var(--comic-ink);
 }
 
 /* --------------------------------------------------------------------
