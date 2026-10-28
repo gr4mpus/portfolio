@@ -1,491 +1,336 @@
 /* ===================================================================
- * Rahul 1.0.0 - Main JS
- *
+ * Rahul Prasad, portfolio
+ * Theme switch, intro and hero sequence, scroll reveals, section highlighting.
  * ------------------------------------------------------------------- */
 
-(function(html) {
+(function (root) {
 
     "use strict";
 
-    html.className = html.className.replace(/\bno-js\b/g, '') + ' js ';
+    const THEME_KEY = 'rahul-portfolio-theme';
+    const BRUTAL = 'neo-brutalist-comic';
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 
-   /* Theme Toggle
-    * -------------------------------------------------- */
-    const ssThemeToggle = function() {
-        const THEME_KEY = 'rahul-portfolio-theme';
-        const COMIC_THEME = 'neo-brutalist-comic';
-        const desktopToggle = document.getElementById('theme-toggle-desktop');
-        const mobileToggle = document.getElementById('theme-toggle-mobile');
-        const toggles = [desktopToggle, mobileToggle].filter(Boolean);
-        
-        if (toggles.length === 0) return;
-        
-        // Check for reduced motion preference
-        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        
-        // Get saved theme from localStorage or check system preference
-        function getSavedTheme() {
-            const saved = localStorage.getItem(THEME_KEY);
-            if (saved) return saved;
-            
-            // Optional: Check system preference for dark mode
-            // If user prefers dark mode, we could default to the original dark theme
-            // For now, we default to no theme (original dark theme)
-            return null;
-        }
-        
-        // Apply theme to document
-        function applyTheme(theme) {
-            if (theme === COMIC_THEME) {
-                html.setAttribute('data-theme', COMIC_THEME);
-                updateToggleState(true);
-                switchProfileImage(true); // Use neo image
+    /* Theme switch
+     * -------------------------------------------------- */
+    function initThemeSwitch() {
+        const options = document.querySelectorAll('[data-theme-option]');
+        const themeColor = document.querySelector('meta[name="theme-color"]');
+
+        function apply(theme) {
+            const isBrutal = theme === BRUTAL;
+
+            if (isBrutal) {
+                root.setAttribute('data-theme', BRUTAL);
             } else {
-                html.removeAttribute('data-theme');
-                updateToggleState(false);
-                switchProfileImage(false); // Use original image
+                root.removeAttribute('data-theme');
             }
-        }
-        
-        // Switch profile image based on theme
-        function switchProfileImage(isComicTheme) {
-            const profileImg = document.querySelector('.about-info__pic');
-            if (profileImg) {
-                if (isComicTheme) {
-                    profileImg.src = 'images/rahul-photo-neo.jpg';
-                } else {
-                    profileImg.src = 'images/rahul-photo.jpg';
-                }
-            }
-        }
-        
-        // Update all toggle button states
-        function updateToggleState(isComic) {
-            toggles.forEach(toggle => {
-                toggle.setAttribute('aria-checked', isComic ? 'true' : 'false');
+
+            options.forEach(function (option) {
+                option.setAttribute('aria-pressed', String(option.dataset.themeOption === (isBrutal ? BRUTAL : 'dark')));
             });
+
+            if (themeColor) themeColor.setAttribute('content', isBrutal ? '#ffffff' : '#15191f');
         }
-        
-        // Toggle theme with optional animation
-        function toggleTheme() {
-            const currentTheme = html.getAttribute('data-theme');
-            const isCurrentlyComic = currentTheme === COMIC_THEME;
-            const newTheme = isCurrentlyComic ? null : COMIC_THEME;
-            
-            // Add page wipe animation (respects reduced motion)
-            if (!prefersReducedMotion) {
-                html.classList.add('theme-transitioning');
-                
-                // Apply theme in the middle of the animation
-                setTimeout(() => {
-                    applyTheme(newTheme);
-                    
-                    // Save preference
-                    if (newTheme) {
-                        localStorage.setItem(THEME_KEY, newTheme);
-                    } else {
-                        localStorage.removeItem(THEME_KEY);
-                    }
-                }, 225); // Middle of 500ms animation
-                
-                // Remove transitioning class after animation completes
-                setTimeout(() => {
-                    html.classList.remove('theme-transitioning');
-                }, 500);
-            } else {
-                // Instant switch for reduced motion
-                applyTheme(newTheme);
-                
-                // Save preference
-                if (newTheme) {
-                    localStorage.setItem(THEME_KEY, newTheme);
+
+        function save(theme) {
+            try {
+                if (theme === BRUTAL) {
+                    localStorage.setItem(THEME_KEY, BRUTAL);
                 } else {
                     localStorage.removeItem(THEME_KEY);
                 }
-            }
+            } catch (e) {}
         }
-        
-        // Handle keyboard events
-        function handleKeydown(event) {
-            if (event.key === 'Enter' || event.key === ' ') {
-                event.preventDefault();
-                toggleTheme();
-            }
-        }
-        
-        // Initialize
-        function init() {
-            // Apply saved theme on load
-            const savedTheme = getSavedTheme();
-            applyTheme(savedTheme);
-            
-            // Add event listeners to all toggles
-            toggles.forEach(toggle => {
-                toggle.addEventListener('click', toggleTheme);
-                toggle.addEventListener('keydown', handleKeydown);
-            });
-        }
-        
-        init();
-    }; // end ssThemeToggle
 
+        // The themes have different heights, so keep whatever the reader is
+        // looking at in the same place on screen across the switch.
+        function applyKeepingPlace(theme) {
+            const header = document.querySelector('.masthead').offsetHeight;
+            const candidates = document.querySelectorAll('.hero, .section__head, .job__head, .job__context, .win, .project, .skills__group, .contact');
+            let anchor = null;
+            let anchorTop = 0;
 
-   /* Animations
-    * -------------------------------------------------- */
-    const tl = anime.timeline( {
-        easing: 'easeInOutCubic',
-        duration: 800,
-        autoplay: false
-    })
-    .add({
-        targets: '#loader',
-        opacity: 0,
-        duration: 1000,
-        begin: function(anim) {
-            window.scrollTo(0, 0);
-        }
-    })
-    .add({
-        targets: '#preloader',
-        opacity: 0,
-        complete: function(anim) {
-            document.querySelector("#preloader").style.visibility = "hidden";
-            document.querySelector("#preloader").style.display = "none";
-        }
-    })
-    .add({
-        targets: '.s-header',
-        translateY: [-100, 0],
-        opacity: [0, 1]
-    }, '-=200')
-    .add({
-        targets: [ '.s-intro .text-pretitle', '.s-intro .text-huge-title'],
-        translateX: [100, 0],
-        opacity: [0, 1],
-        delay: anime.stagger(400)
-    })
-    .add({
-        targets: '.circles span',
-        keyframes: [
-            {opacity: [0, .3]},
-            {opacity: [.3, .1], delay: anime.stagger(100, {direction: 'reverse'})}
-        ],
-        delay: anime.stagger(100, {direction: 'reverse'})
-    })
-    .add({
-        targets: '.intro-social li',
-        translateX: [-50, 0],
-        opacity: [0, 1],
-        delay: anime.stagger(100, {direction: 'reverse'})
-    })
-    .add({
-        targets: '.intro-scrolldown',
-        translateY: [100, 0],
-        opacity: [0, 1]
-    }, '-=800');
-
-
-
-   /* Preloader
-    * -------------------------------------------------- */
-    const ssPreloader = function() {
-
-        const preloader = document.querySelector('#preloader');
-        if (!preloader) return;
-        
-        window.addEventListener('load', function() {
-            document.querySelector('html').classList.remove('ss-preload');
-            document.querySelector('html').classList.add('ss-loaded');
-
-            document.querySelectorAll('.ss-animated').forEach(function(item){
-                item.classList.remove('ss-animated');
-            });
-
-            tl.play();
-        });
-
-        // force page scroll position to top at page refresh
-        // window.addEventListener('beforeunload' , function () {
-        //     // window.scrollTo(0, 0);
-        // });
-
-    }; // end ssPreloader
-
-
-   /* Mobile Menu
-    * ---------------------------------------------------- */ 
-    const ssMobileMenu = function() {
-
-        const toggleButton = document.querySelector('.mobile-menu-toggle');
-        const mainNavWrap = document.querySelector('.main-nav-wrap');
-        const siteBody = document.querySelector("body");
-
-        if (!(toggleButton && mainNavWrap)) return;
-
-        toggleButton.addEventListener('click', function(event) {
-            event.preventDefault();
-            toggleButton.classList.toggle('is-clicked');
-            siteBody.classList.toggle('menu-is-open');
-        });
-
-        mainNavWrap.querySelectorAll('.main-nav a').forEach(function(link) {
-            link.addEventListener("click", function(event) {
-
-                // at 800px and below
-                if (window.matchMedia('(max-width: 800px)').matches) {
-                    toggleButton.classList.toggle('is-clicked');
-                    siteBody.classList.toggle('menu-is-open');
+            for (const el of candidates) {
+                const top = el.getBoundingClientRect().top;
+                if (top >= header) {
+                    anchor = el;
+                    anchorTop = top;
+                    break;
                 }
-            });
-        });
-
-        window.addEventListener('resize', function() {
-
-            // above 800px
-            if (window.matchMedia('(min-width: 801px)').matches) {
-                if (siteBody.classList.contains('menu-is-open')) siteBody.classList.remove('menu-is-open');
-                if (toggleButton.classList.contains("is-clicked")) toggleButton.classList.remove("is-clicked");
             }
-        });
 
-    }; // end ssMobileMenu
+            apply(theme);
 
-
-   /* Highlight active menu link on pagescroll
-    * ------------------------------------------------------ */
-    const ssScrollSpy = function() {
-
-        const sections = document.querySelectorAll(".target-section");
-
-        // Add an event listener listening for scroll
-        window.addEventListener("scroll", navHighlight);
-
-        function navHighlight() {
-        
-            // Get current scroll position
-            let scrollY = window.pageYOffset;
-            let activeSectionId = null;
-        
-            // Loop through sections to find the currently active one
-            sections.forEach(function(current) {
-                const sectionHeight = current.offsetHeight;
-                const sectionTop = current.offsetTop - 50;
-                const sectionId = current.getAttribute("id");
-            
-                // Check if current scroll position is within this section
-                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-                    activeSectionId = sectionId;
-                }
-            });
-            
-            // Remove 'current' class from all nav items and add it only to the active one
-            document.querySelectorAll(".main-nav li").forEach(function(li) {
-                li.classList.remove("current");
-            });
-            
-            // Add 'current' class to the active section's nav link
-            if (activeSectionId) {
-                const activeLink = document.querySelector(".main-nav a[href*=" + activeSectionId + "]");
-                if (activeLink) {
-                    activeLink.parentNode.classList.add("current");
-                }
+            if (anchor && scrollY > 0) {
+                window.scrollTo({ top: scrollY + anchor.getBoundingClientRect().top - anchorTop, behavior: 'instant' });
             }
         }
 
-    }; // end ssScrollSpy
+        // Reveal the new theme over the old one: a circle that grows out of the
+        // switch for Dark, a hard diagonal wipe for Brutal.
+        function transitionTo(theme, origin) {
+            if (reducedMotion.matches || !document.startViewTransition) {
+                applyKeepingPlace(theme);
+                return;
+            }
 
+            const transition = document.startViewTransition(function () { applyKeepingPlace(theme); });
 
-   /* Animate elements if in viewport
-    * ------------------------------------------------------ */
-    const ssViewAnimate = function() {
+            transition.ready.then(function () {
+                let clipPath;
+                let easing;
+                let duration;
 
-        const blocks = document.querySelectorAll("[data-animate-block]");
-
-        window.addEventListener("scroll", viewportAnimation);
-
-        function viewportAnimation() {
-
-            let scrollY = window.pageYOffset;
-
-            blocks.forEach(function(current) {
-
-                const viewportHeight = window.innerHeight;
-                const triggerTop = (current.offsetTop + (viewportHeight * .2)) - viewportHeight;
-                const blockHeight = current.offsetHeight;
-                const blockSpace = triggerTop + blockHeight;
-                const inView = scrollY > triggerTop && scrollY <= blockSpace;
-                const isAnimated = current.classList.contains("ss-animated");
-
-                if (inView && (!isAnimated)) {
-                    anime({
-                        targets: current.querySelectorAll("[data-animate-el]"),
-                        opacity: [0, 1],
-                        translateY: [100, 0],
-                        delay: anime.stagger(400, {start: 200}),
-                        duration: 800,
-                        easing: 'easeInOutCubic',
-                        begin: function(anim) {
-                            current.classList.add("ss-animated");
-                        }
-                    });
+                if (theme === BRUTAL) {
+                    clipPath = [
+                        'polygon(0% 0%, 0% 0%, -25% 100%, 0% 100%)',
+                        'polygon(0% 0%, 125% 0%, 100% 100%, 0% 100%)'
+                    ];
+                    easing = 'cubic-bezier(.77, 0, .18, 1)';
+                    duration = 750;
+                } else {
+                    const rect = origin.getBoundingClientRect();
+                    const x = rect.left + rect.width / 2;
+                    const y = rect.top + rect.height / 2;
+                    const radius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+                    clipPath = [
+                        'circle(0px at ' + x + 'px ' + y + 'px)',
+                        'circle(' + radius + 'px at ' + x + 'px ' + y + 'px)'
+                    ];
+                    easing = 'cubic-bezier(.65, 0, .35, 1)';
+                    duration = 800;
                 }
+
+                root.animate({ clipPath: clipPath }, {
+                    duration: duration,
+                    easing: easing,
+                    pseudoElement: '::view-transition-new(root)'
+                });
+            }).catch(function () {});
+        }
+
+        options.forEach(function (option) {
+            option.addEventListener('click', function () {
+                const theme = option.dataset.themeOption;
+                const current = root.getAttribute('data-theme') === BRUTAL ? BRUTAL : 'dark';
+                if (theme === current) return;
+                transitionTo(theme, option);
+                save(theme);
+            });
+        });
+
+        apply(root.getAttribute('data-theme'));
+    }
+
+
+    /* Hero load sequence
+     * -------------------------------------------------- */
+    function initReveal() {
+        document.querySelectorAll('[data-reveal]').forEach(function (el, i) {
+            el.style.setProperty('--i', i);
+        });
+
+        // With the intro playing, start as its panel begins to lift
+        const wait = root.classList.contains('has-loader') ? 950 : 0;
+
+        setTimeout(function () {
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    root.classList.add('is-ready');
+                });
+            });
+        }, wait);
+
+        const loader = document.querySelector('.loader');
+        if (loader) {
+            loader.addEventListener('animationend', function (event) {
+                if (event.target === loader) loader.remove();
+            });
+        }
+    }
+
+
+    /* Scroll reveals
+     * -------------------------------------------------- */
+    function initScrollReveal() {
+        if (!('IntersectionObserver' in window) || reducedMotion.matches) return;
+
+        const targets = [
+            ['.section__title', 'mask'],
+            ['.section__intro, .job__head, .job__context, .skills__group', 'fade'],
+            ['.win, .project', 'card'],
+            ['.contact__title, .contact__email, .contact__links', 'fade']
+        ];
+
+        targets.forEach(function (target) {
+            document.querySelectorAll(target[0]).forEach(function (el) {
+                if (target[1] === 'mask') {
+                    el.innerHTML = '<span class="mask"><span>' + el.innerHTML + '</span></span>';
+                }
+                el.setAttribute('data-scroll', target[1]);
+            });
+        });
+
+        const observer = new IntersectionObserver(function (entries) {
+            entries
+                .filter(function (entry) { return entry.isIntersecting; })
+                .sort(function (a, b) {
+                    return a.boundingClientRect.top - b.boundingClientRect.top ||
+                        a.boundingClientRect.left - b.boundingClientRect.left;
+                })
+                .forEach(function (entry, i) {
+                    entry.target.style.setProperty('--delay', Math.min(i, 6) * 90 + 'ms');
+                    entry.target.classList.add('is-in');
+                    observer.unobserve(entry.target);
+                    // Drop the delay afterwards so it never slows hover or theme changes
+                    setTimeout(function () { entry.target.style.removeProperty('--delay'); }, 1600);
+                });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.1 });
+
+        document.querySelectorAll('[data-scroll]').forEach(function (el) {
+            observer.observe(el);
+        });
+
+        root.classList.add('js-scroll');
+    }
+
+
+    /* Reading progress under the header
+     * -------------------------------------------------- */
+    function initProgress() {
+        const bar = document.querySelector('.scroll-progress');
+        if (!bar) return;
+
+        let queued = false;
+
+        function update() {
+            const max = document.documentElement.scrollHeight - innerHeight;
+            bar.style.setProperty('--progress', max > 0 ? Math.min(scrollY / max, 1) : 0);
+            queued = false;
+        }
+
+        window.addEventListener('scroll', function () {
+            if (!queued) {
+                queued = true;
+                requestAnimationFrame(update);
+            }
+        }, { passive: true });
+
+        update();
+    }
+
+
+    /* Highlight the nav link for the section in view
+     * -------------------------------------------------- */
+    function initSectionSpy() {
+        const links = document.querySelectorAll('.masthead__nav a');
+        if (!('IntersectionObserver' in window) || !links.length) return;
+
+        const byId = {};
+        links.forEach(function (link) {
+            byId[link.getAttribute('href').slice(1)] = link;
+        });
+
+        // A section becomes current when its top crosses a thin trigger line:
+        // a third of the way up from the bottom on phones, mid-screen on desktop.
+        const mobile = window.matchMedia('(max-width: 760px)');
+        const sections = document.querySelectorAll('main section[id]');
+        let observer = null;
+
+        function watch() {
+            if (observer) observer.disconnect();
+
+            observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) return;
+                    links.forEach(function (link) { link.removeAttribute('aria-current'); });
+                    const link = byId[entry.target.id];
+                    if (link) link.setAttribute('aria-current', 'true');
+                });
+            }, { rootMargin: mobile.matches ? '-66% 0px -33% 0px' : '-40% 0px -55% 0px' });
+
+            sections.forEach(function (section) {
+                observer.observe(section);
             });
         }
 
-    }; // end ssViewAnimate
+        mobile.addEventListener('change', watch);
+        watch();
+    }
 
 
-   /* Swiper
-    * ------------------------------------------------------ */ 
-    const ssSwiper = function() {
+    /* Dark theme: label the "selected" portrait with its real size
+     * -------------------------------------------------- */
+    function initPortraitSize() {
+        const figure = document.querySelector('.hero__portrait');
+        if (!figure || !('ResizeObserver' in window)) return;
 
-        const mySwiper = new Swiper('.swiper-container', {
+        new ResizeObserver(function (entries) {
+            const box = entries[0].contentRect;
+            figure.setAttribute('data-size', Math.round(box.width) + ' \u00d7 ' + Math.round(box.height));
+        }).observe(figure);
+    }
 
-            slidesPerView: 1,
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true,
-            },
-            breakpoints: {
-                // when window width is > 400px
-                401: {
-                    slidesPerView: 1,
-                    spaceBetween: 20
-                },
-                // when window width is > 800px
-                801: {
-                    slidesPerView: 2,
-                    spaceBetween: 32
-                },
-                // when window width is > 1200px
-                1201: {
-                    slidesPerView: 2,
-                    spaceBetween: 80
+
+    /* Mobile carousels: position dots under each swipeable row
+     * -------------------------------------------------- */
+    function initCarousels() {
+        const mobile = window.matchMedia('(max-width: 760px)');
+
+        document.querySelectorAll('.wins, .projects').forEach(function (row) {
+            const items = Array.from(row.children);
+            const dots = document.createElement('div');
+            dots.className = 'swipe-dots';
+            dots.setAttribute('aria-hidden', 'true');
+            items.forEach(function () { dots.appendChild(document.createElement('span')); });
+            row.after(dots);
+
+            let queued = false;
+
+            function update() {
+                const step = items.length > 1 ? items[1].offsetLeft - items[0].offsetLeft : 1;
+                const atEnd = row.scrollLeft + row.clientWidth >= row.scrollWidth - 4;
+                const index = atEnd ? items.length - 1 : Math.round(row.scrollLeft / step);
+                Array.from(dots.children).forEach(function (dot, i) {
+                    dot.classList.toggle('is-active', i === index);
+                });
+                queued = false;
+            }
+
+            row.addEventListener('scroll', function () {
+                if (!queued) {
+                    queued = true;
+                    requestAnimationFrame(update);
+                }
+            }, { passive: true });
+
+            // Let keyboard users scroll the row while it is a carousel
+            function syncFocus() {
+                if (mobile.matches) {
+                    row.setAttribute('tabindex', '0');
+                } else {
+                    row.removeAttribute('tabindex');
                 }
             }
-         });
 
-    }; // end ssSwiper
-
-
-   /* Lightbox
-    * ------------------------------------------------------ */
-    const ssLightbox = function() {
-
-        const folioLinks = document.querySelectorAll('.folio-list__item-link');
-        const modals = [];
-
-        folioLinks.forEach(function(link) {
-            let modalbox = link.getAttribute('href');
-            let instance = basicLightbox.create(
-                document.querySelector(modalbox),
-                {
-                    onShow: function(instance) {
-                        //detect Escape key press
-                        document.addEventListener("keydown", function(event) {
-                            event = event || window.event;
-                            if (event.keyCode === 27) {
-                                instance.close();
-                            }
-                        });
-                    }
-                }
-            )
-            modals.push(instance);
+            mobile.addEventListener('change', syncFocus);
+            syncFocus();
+            update();
         });
-
-        folioLinks.forEach(function(link, index) {
-            link.addEventListener("click", function(event) {
-                event.preventDefault();
-                modals[index].show();
-            });
-        });
-
-    };  // end ssLightbox
+    }
 
 
-   /* Alert boxes
-    * ------------------------------------------------------ */
-    const ssAlertBoxes = function() {
+    const year = document.querySelector('[data-year]');
+    if (year) year.textContent = new Date().getFullYear();
 
-        const boxes = document.querySelectorAll('.alert-box');
-  
-        boxes.forEach(function(box){
-
-            box.addEventListener('click', function(event) {
-                if (event.target.matches(".alert-box__close")) {
-                    event.stopPropagation();
-                    event.target.parentElement.classList.add("hideit");
-
-                    setTimeout(function(){
-                        box.style.display = "none";
-                    }, 500)
-                }    
-            });
-
-        })
-
-    }; // end ssAlertBoxes
-
-
-   /* Smoothscroll
-    * ------------------------------------------------------ */
-    const ssMoveTo = function(){
-
-        const easeFunctions = {
-            easeInQuad: function (t, b, c, d) {
-                t /= d;
-                return c * t * t + b;
-            },
-            easeOutQuad: function (t, b, c, d) {
-                t /= d;
-                return -c * t* (t - 2) + b;
-            },
-            easeInOutQuad: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t + b;
-                t--;
-                return -c/2 * (t*(t-2) - 1) + b;
-            },
-            easeInOutCubic: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t*t + b;
-                t -= 2;
-                return c/2*(t*t*t + 2) + b;
-            }
-        }
-
-        const triggers = document.querySelectorAll('.smoothscroll');
-        
-        const moveTo = new MoveTo({
-            tolerance: 0,
-            duration: 1200,
-            easing: 'easeInOutCubic',
-            container: window
-        }, easeFunctions);
-
-        triggers.forEach(function(trigger) {
-            moveTo.registerTrigger(trigger);
-        });
-
-    }; // end ssMoveTo
-
-
-   /* Initialize
-    * ------------------------------------------------------ */
-    (function ssInit() {
-
-        ssThemeToggle();
-        ssPreloader();
-        ssMobileMenu();
-        ssScrollSpy();
-        ssViewAnimate();
-        ssSwiper();
-        ssLightbox();
-        ssAlertBoxes();
-        ssMoveTo();
-
-    })();
+    initThemeSwitch();
+    initReveal();
+    initSectionSpy();
+    initScrollReveal();
+    initProgress();
+    initPortraitSize();
+    initCarousels();
 
 })(document.documentElement);
