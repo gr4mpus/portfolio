@@ -1,480 +1,410 @@
 <!DOCTYPE html>
-<html class="no-js ss-preload" lang="en">
+<html lang="en">
 
 <head>
-
-    <!--- basic page needs
-    ================================================== -->
     <meta charset="utf-8">
-    <title>Rahul</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <!-- mobile specific metas
-    ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rahul Prasad, senior frontend engineer</title>
+    <meta name="description" content="Rahul Prasad is a senior frontend engineer in Pune with 7 years of building React, Next.js and TypeScript platforms, micro-frontends and design systems.">
+    <meta name="author" content="Rahul Prasad">
+    <meta name="theme-color" content="#15191f">
 
-    <!-- CSS
-    ================================================== -->
-    <link rel="stylesheet" href="css/vendor.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <meta property="og:title" content="Rahul Prasad, senior frontend engineer">
+    <meta property="og:description" content="React, Next.js and TypeScript platforms, micro-frontends and design systems used by 120,000+ people.">
+    <meta property="og:url" content="https://rahulprasad.co.in/">
+    <meta property="og:image" content="https://rahulprasad.co.in/images/rahul-photo.jpg">
 
-    <!-- Theme Initialization (prevent flash of wrong theme)
-    ================================================== -->
+    <!-- Apply the saved theme before first paint to avoid a flash -->
     <script>
         (function () {
-            var theme = localStorage.getItem('rahul-portfolio-theme');
-            if (theme === 'neo-brutalist-comic') {
-                document.documentElement.setAttribute('data-theme', theme);
-            }
+            var root = document.documentElement;
+            var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            root.classList.add('js-reveal');
+            setTimeout(function () { root.classList.add('is-ready'); }, 3000);
+            try {
+                // Play the intro once per browser session
+                if (!calm && !sessionStorage.getItem('rp-intro')) {
+                    root.classList.add('has-loader');
+                    sessionStorage.setItem('rp-intro', '1');
+                }
+            } catch (e) {}
+            try {
+                if (localStorage.getItem('rahul-portfolio-theme') === 'neo-brutalist-comic') {
+                    root.setAttribute('data-theme', 'neo-brutalist-comic');
+                }
+            } catch (e) {}
         })();
     </script>
 
-    <!-- favicons
-    ================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..800&family=Geist:wght@400..700&display=swap">
+    <link rel="stylesheet" href="css/styles.css">
+
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
-
 </head>
 
-<body id="top">
+<body>
 
-
-    <!-- # preloader
-    ================================================== -->
-    <div id="preloader">
-        <div id="loader">
+    <div class="loader" aria-hidden="true">
+        <div class="loader__inner">
+            <p class="loader__name"><span class="mask"><span>Rahul Prasad</span></span></p>
+            <div class="loader__bar"><span></span></div>
         </div>
     </div>
 
+    <a class="skip-link" href="#main">Skip to content</a>
 
-    <!-- # page wrap
-    ================================================== -->
-    <div class="s-pagewrap">
+    <header class="masthead">
+        <div class="masthead__inner">
+            <a class="masthead__name" href="#top">Rahul Prasad</a>
 
-        <div class="circles">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
+            <nav class="masthead__nav" aria-label="Sections">
+                <ul>
+                    <li><a href="#experience">Experience</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <div class="theme-switch" role="group" aria-label="Site theme">
+                <button type="button" class="theme-switch__option" data-theme-option="dark" aria-pressed="true">Dark</button>
+                <button type="button" class="theme-switch__option" data-theme-option="neo-brutalist-comic" aria-pressed="false">Brutal</button>
+            </div>
         </div>
+        <div class="scroll-progress" aria-hidden="true"></div>
+    </header>
 
+    <main id="main">
 
-        <!-- ## site header 
-        ================================================== -->
-        <header class="s-header">
+        <!-- Intro -->
+        <section id="top" class="hero" aria-labelledby="hero-title">
+            <div class="hero__text">
+                <p class="hero__role" data-reveal>Senior frontend engineer in Pune, India</p>
+                <h1 id="hero-title" class="hero__name"><span class="mask"><span>Rahul</span></span> <span class="mask"><span>Prasad</span></span></h1>
+                <p class="hero__lede" data-reveal>
+                    I architect and ship React, Next.js and TypeScript platforms: micro-frontends, design
+                    systems and the APIs behind them. For seven years that work has served enterprise HR
+                    tools, global brand sites and consumer banking.
+                </p>
 
-            <div class="header-mobile">
-                <span class="mobile-home-link"><a href="index.html">Rahul.</a></span>
-                <a class="mobile-menu-toggle" href="#0"><span>Menu</span></a>
+                <div class="hero__actions" data-reveal>
+                    <a class="button button--primary" href="Rahul_Prasad_Resume.pdf" target="_blank" rel="noopener">Download CV <span class="visually-hidden">(PDF, opens in a new tab)</span></a>
+                    <a class="button button--secondary" href="mailto:hello@rahulprasad.co.in">Email me</a>
+                </div>
+
+                <dl class="hero__facts" data-reveal>
+                    <div>
+                        <dt>Experience</dt>
+                        <dd>7 years</dd>
+                    </div>
+                    <div>
+                        <dt>Now</dt>
+                        <dd>Kaiser Permanente</dd>
+                    </div>
+                    <div>
+                        <dt>Platforms used by</dt>
+                        <dd>120,000+ people</dd>
+                    </div>
+                </dl>
             </div>
 
-            <div class="row wide main-nav-wrap">
-                <nav class="column lg-12 main-nav">
-                    <ul>
-                        <li><a href="index.html" class="home-link">Rahul.</a></li>
-                        <li class="current"><a href="#intro" class="smoothscroll">Intro</a></li>
-                        <li><a href="#about" class="smoothscroll">About</a></li>
-                        <li><a href="#experience" class="smoothscroll">Experience</a></li>
-                        <li><a href="#contact" class="smoothscroll">Say Hello</a></li>
+            <figure class="hero__portrait">
+                <img class="portrait portrait--dark" src="images/rahul-photo.jpg" alt="Rahul standing by a fence at sunset, a lake and hills behind him" width="800" height="1000" loading="lazy">
+                <img class="portrait portrait--brutal" src="images/rahul-photo-neo.jpg" alt="Rahul standing in a snowfield with pine trees and mountains behind him" width="800" height="1000" loading="lazy">
+                <span class="burst" aria-hidden="true"><span>Hey there!</span></span>
+            </figure>
+        </section>
+
+
+        <!-- Experience -->
+        <section id="experience" class="section" aria-labelledby="experience-title">
+            <header class="section__head">
+                <h2 id="experience-title" class="section__title">Experience</h2>
+            </header>
+
+            <ol class="jobs">
+                <li class="job">
+                    <header class="job__head">
+                        <div>
+                            <h3 class="job__company">Kaiser Permanente</h3>
+                            <p class="job__role">Senior Frontend Engineer</p>
+                        </div>
+                        <p class="job__when"><time datetime="2025-07">Jul 2025</time> to present<span class="job__place">Pune</span></p>
+                    </header>
+                    <p class="job__context">Enterprise HR and compensation platform used by more than 120,000 employees.</p>
+
+                    <ul class="wins">
+                        <li class="win">
+                            <h4 class="win__title">Micro-frontend re-architecture</h4>
+                            <p>Moved a legacy Angular and jQuery approvals platform, handling 12,000+ approvals a month, to React, Next.js and TypeScript micro-frontends with Module Federation. Three teams now deploy independently, and two sibling teams adopted the shared component library.</p>
+                            <p class="win__result">Bundle 30% smaller, WCAG 2.1 AA, Lighthouse 90+</p>
+                        </li>
+                        <li class="win">
+                            <h4 class="win__title">Wage Estimator, built from zero</h4>
+                            <p>Owned the whole cycle alone, from VP requirements to release: a Redux Toolkit rule engine covering 8 unions, 140+ job codes and 8 regional markets, plus a superuser view for live scenario testing.</p>
+                            <p class="win__result">30,000+ employees use it, support tickets down 67%</p>
+                        </li>
+                        <li class="win">
+                            <h4 class="win__title">No-code policy configurator</h4>
+                            <p>A drag-and-drop JSON schema editor with large data grids, bulk uploads and multi-step approvals. 25+ authors use it to manage 180+ nested policies across 400+ pages.</p>
+                            <p class="win__result">Setup time from 1 week to 30 minutes, zero defects after launch</p>
+                        </li>
+                        <li class="win">
+                            <h4 class="win__title">Backend-for-frontend layer</h4>
+                            <p>Co-designed Next.js API routes that merge 4 to 6 microservice calls into one normalized payload per page, covered by unit, integration and end-to-end tests of real user flows.</p>
+                            <p class="win__result">Average API latency from 480 ms to 310 ms</p>
+                        </li>
+                        <li class="win">
+                            <h4 class="win__title">Personalization and release pipeline</h4>
+                            <p>Co-built a 20+ attribute personalization engine with role-restricted impersonation, retiring 35+ QA accounts, and a Docker and Kubernetes pipeline that replaced manual releases.</p>
+                            <p class="win__result">1 deploy a week to 12+, visibility complaints down 78%</p>
+                        </li>
                     </ul>
-                    <!-- Theme Toggle (Desktop) -->
-                    <button class="theme-toggle theme-toggle--desktop" role="switch" aria-checked="false"
-                        aria-label="Toggle Neo-Brutalist Comic Theme" id="theme-toggle-desktop">
-                        <span class="theme-toggle__track">
-                            <span class="theme-toggle__thumb"></span>
-                        </span>
-                        <span class="theme-toggle__label">
-                            <span class="theme-toggle__icon theme-toggle__icon--light">☀️</span>
-                            <span class="theme-toggle__icon theme-toggle__icon--comic">💥</span>
-                        </span>
-                    </button>
-                </nav>
+                </li>
+
+                <li class="job">
+                    <header class="job__head">
+                        <div>
+                            <h3 class="job__company">Publicis Sapient</h3>
+                            <p class="job__role">Senior Associate, Frontend Engineering</p>
+                        </div>
+                        <p class="job__when"><time datetime="2021-10">Oct 2021</time> to <time datetime="2025-07">Jul 2025</time><span class="job__place">Gurugram</span></p>
+                    </header>
+                    <p class="job__context">Global brand platform in 14 languages across 15+ countries, with 120+ inquiry forms.</p>
+
+                    <ul class="wins">
+                        <li class="win">
+                            <h4 class="win__title">Form recovery that multiplied conversions</h4>
+                            <p>Consent-based state capture across 120+ multi-step forms, persisted through a REST API, so abandoned forms came back pre-filled. Measured over a 90-day before-and-after study.</p>
+                            <p class="win__result">Form completion from 5% to 25%</p>
+                        </li>
+                        <li class="win">
+                            <h4 class="win__title">Design system and SPA migration</h4>
+                            <p>Built React and TypeScript components in a 60-component design system that turned the site into a single-page app, with route-level code splitting and lazy loading. Mentored 4 junior engineers along the way.</p>
+                            <p class="win__result">JavaScript bundle 32% smaller, page load from 4.1 s to 3.2 s</p>
+                        </li>
+                        <li class="win">
+                            <h4 class="win__title">Design-token compiler for 14 languages</h4>
+                            <p>A Style Dictionary and Webpack pipeline that emits a dedicated CSS bundle per language instead of one monolithic file. It became the standard across the organization.</p>
+                            <p class="win__result">Per-language CSS 40% smaller</p>
+                        </li>
+                        <li class="win">
+                            <h4 class="win__title">Accessibility across 80+ templates</h4>
+                            <p>Fixed 240+ Axe and WAVE violations and wrote a shared accessibility library the whole team builds on.</p>
+                            <p class="win__result">WCAG 2.1 AA compliance from 62% to 95%, screen-reader defects down 60%</p>
+                        </li>
+                        <li class="win">
+                            <h4 class="win__title">Testing as a merge gate</h4>
+                            <p>Made Jest, React Testing Library and Cypress mandatory checks in Jenkins and Bitbucket, and instrumented 1.5M+ monthly events that drive personalized recommendations.</p>
+                            <p class="win__result">Coverage from 45% to 75%, production bugs down 30%, recommendation CTR up 22%</p>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="job">
+                    <header class="job__head">
+                        <div>
+                            <h3 class="job__company">Tata Consultancy Services</h3>
+                            <p class="job__role">Software Engineer, Frontend</p>
+                        </div>
+                        <p class="job__when"><time datetime="2019-07">Jul 2019</time> to <time datetime="2021-10">Oct 2021</time><span class="job__place">Gurugram</span></p>
+                    </header>
+                    <p class="job__context">Consumer banking for Citibank North America, and network telemetry products.</p>
+
+                    <ul class="wins">
+                        <li class="win">
+                            <h4 class="win__title">Citi virtual account numbers</h4>
+                            <p>Built 14 modular React and Next.js components for the credit card virtual account number flow, separating the API and state layer from the views and covering them with unit tests.</p>
+                            <p class="win__result">Transaction processing time down 30%</p>
+                        </li>
+                        <li class="win">
+                            <h4 class="win__title">Live network dashboards for MWC 2020</h4>
+                            <p>Reusable React and Chart.js components that turn high-volume network logs into interactive alarm tables and charts, without redundant API calls.</p>
+                            <p class="win__result">Shown live to operators at Mobile World Congress 2020</p>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+
+        <!-- Projects -->
+        <section id="projects" class="section" aria-labelledby="projects-title">
+            <header class="section__head">
+                <h2 id="projects-title" class="section__title">Projects</h2>
+                <p class="section__intro">Products I designed, built and run on my own.</p>
+            </header>
+
+            <div class="projects">
+                <article class="project">
+                    <h3 class="project__name">Harmony Editor</h3>
+                    <p class="project__summary">A photo and video editor where you lasso any object and adjust just that part, with layered edits you can revisit any time.</p>
+                    <p class="project__result">40+ filters, all processed on your device</p>
+                    <ul class="tags" aria-label="Built with">
+                        <li>React 19</li>
+                        <li>TypeScript</li>
+                        <li>WebGL</li>
+                        <li>MediaPipe</li>
+                        <li>PWA</li>
+                    </ul>
+                    <a class="project__link" href="https://harmony.rahulprasad.co.in/" target="_blank" rel="noopener">Open Harmony Editor</a>
+                </article>
+
+                <article class="project">
+                    <h3 class="project__name">Ehsaan Khata</h3>
+                    <p class="project__summary">A mobile-first ledger where groups of friends record and approve favours, with balances that sync in real time.</p>
+                    <p class="project__result">55+ active groups</p>
+                    <ul class="tags" aria-label="Built with">
+                        <li>Next.js</li>
+                        <li>TypeScript</li>
+                        <li>Supabase</li>
+                        <li>Google OAuth</li>
+                        <li>Vercel</li>
+                    </ul>
+                    <a class="project__link" href="https://ehsaankhata.com/" target="_blank" rel="noopener">Visit ehsaankhata.com</a>
+                </article>
+
+                <article class="project">
+                    <h3 class="project__name">Sensei Mods</h3>
+                    <p class="project__summary">A direct-to-consumer store for custom PC cables, with a live configurator that previews colours, pins and layouts before checkout.</p>
+                    <p class="project__result">150+ custom orders</p>
+                    <ul class="tags" aria-label="Built with">
+                        <li>Angular 16</li>
+                        <li>TypeScript</li>
+                        <li>RxJS</li>
+                        <li>Razorpay</li>
+                    </ul>
+                    <a class="project__link" href="https://www.senseimods.com/" target="_blank" rel="noopener">Visit senseimods.com</a>
+                </article>
+
+                <article class="project">
+                    <h3 class="project__name">Insta Carousel</h3>
+                    <p class="project__summary">An offline-first web app with an endless canvas for laying out Instagram carousels. Images and video are edited entirely in the browser.</p>
+                    <p class="project__result">Works fully offline</p>
+                    <ul class="tags" aria-label="Built with">
+                        <li>React 19</li>
+                        <li>TypeScript</li>
+                        <li>FFmpeg WASM</li>
+                        <li>IndexedDB</li>
+                        <li>PWA</li>
+                    </ul>
+                    <a class="project__link" href="https://gr4mpus.github.io/Insta-Carousel/" target="_blank" rel="noopener">Open Insta Carousel</a>
+                </article>
             </div>
-
-        </header> <!-- end s-header -->
-
-        <!-- Theme Toggle (Mobile - Sticky Bottom Bar) -->
-        <div class="theme-toggle-mobile-bar" id="theme-toggle-mobile-bar">
-            <button class="theme-toggle theme-toggle--mobile" role="switch" aria-checked="false"
-                aria-label="Toggle Neo-Brutalist Comic Theme" id="theme-toggle-mobile">
-                <span class="theme-toggle__track">
-                    <span class="theme-toggle__thumb"></span>
-                </span>
-                <span class="theme-toggle__label">
-                    <span class="theme-toggle__icon theme-toggle__icon--light">☀️</span>
-                </span>
-            </button>
-        </div>
+        </section>
 
 
-        <!-- ## main content
-        ==================================================- -->
-        <main class="s-content">
+        <!-- Skills -->
+        <section id="skills" class="section" aria-labelledby="skills-title">
+            <header class="section__head">
+                <h2 id="skills-title" class="section__title">Skills</h2>
+            </header>
 
-
-            <!-- ### intro
-            ================================================== -->
-            <section id="intro" class="s-intro target-section">
-
-                <div class="row intro-content wide">
-
-                    <div class="column">
-                        <div class="text-pretitle with-line">
-                            Hello World
-                        </div>
-
-                        <h1 class="text-huge-title">
-                            I am Rahul, <br>
-                            a frontend developer <br>
-                            & a coding enthusiast
-                        </h1>
-                    </div>
-
-                    <ul class="intro-social">
-                        <li><a target="_blank" href="https://github.com/gr4mpus">Github</a></li>
-                        <li><a target="_blank" href="https://www.linkedin.com/in/grampus/">Linkedin</a></li>
-                        <li><a target="_blank" href="https://www.instagram.com/gr4mpus/">Instagram</a></li>
-                    </ul>
-
-                </div> <!-- end intro content -->
-
-                <a href="#about" class="intro-scrolldown smoothscroll">
-                    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-                        fill-rule="evenodd" clip-rule="evenodd">
-                        <path
-                            d="M11 21.883l-6.235-7.527-.765.644 7.521 9 7.479-9-.764-.645-6.236 7.529v-21.884h-1v21.883z" />
-                    </svg>
-                </a>
-
-            </section> <!-- end s-intro -->
-
-
-            <!-- ### about
-            ================================================== -->
-            <section id="about" class="s-about target-section">
-
-
-                <div class="row about-info wide" data-animate-block>
-
-                    <div class="column lg-6 md-12 about-info__pic-block">
-                        <img src="images/rahul-photo.jpg" alt="" class="about-info__pic" data-animate-el>
-                    </div>
-
-                    <div class="column lg-6 md-12">
-                        <div class="about-info__text">
-
-                            <h2 class="text-pretitle with-line" data-animate-el>
-                                About
-                            </h2>
-                            <p class="attention-getter" data-animate-el>
-                                Experienced Frontend Developer with 6+ years of expertise in building scalable,
-                                high-performance web applications using React.js, Angular, JavaScript, HTML5, CSS3, and modern UI
-                                frameworks. Skilled in creating reusable components, optimizing performance, and
-                                delivering pixel-perfect, responsive designs across devices and browsers. Strong
-                                background in integrating RESTful APIs, ensuring accessibility (WCAG compliance), and
-                                collaborating within agile, cross-functional teams. Proven track record of improving
-                                application efficiency, user engagement, and maintainability. Passionate about clean
-                                code, continuous learning, and driving digital innovation to support business goals and
-                                enhance user experience.
-                            </p>
-                            <a target="_blank" href="./Rahul_Prasad_Senior_Frontend_Developer.pdf"
-                                class="btn btn--medium u-fullwidth" data-animate-el>Download CV</a>
-
-                        </div>
-                    </div>
-                </div> <!-- about-info -->
-
-
-                <div class="row about-expertise about-timelines" data-animate-block>
-                    <div class="column lg-12">
-
-                        <h2 class="text-pretitle" data-animate-el>Expertise</h2>
-
-                        <ul class="skills-list h1" data-animate-el>
+            <dl class="skills">
+                <div class="skills__group">
+                    <dt>Architecture</dt>
+                    <dd>
+                        <ul class="tags">
                             <li>React</li>
+                            <li>Next.js</li>
+                            <li>Micro-frontends</li>
+                            <li>Module Federation</li>
+                            <li>Redux Toolkit</li>
+                            <li>Design systems</li>
+                            <li>Design tokens</li>
                             <li>Angular</li>
-                            <li>AEM Frontend</li>
-                            <li>Accessibility</li>
-                            <li>Analytics</li>
-                            <li>Data Visualisation</li>
+                            <li>RxJS</li>
+                        </ul>
+                    </dd>
+                </div>
+                <div class="skills__group">
+                    <dt>Languages and standards</dt>
+                    <dd>
+                        <ul class="tags">
+                            <li>TypeScript</li>
+                            <li>JavaScript</li>
+                            <li>HTML</li>
+                            <li>CSS and SCSS</li>
+                            <li>WCAG 2.1 AA</li>
+                            <li>Browser APIs</li>
+                        </ul>
+                    </dd>
+                </div>
+                <div class="skills__group">
+                    <dt>APIs and data</dt>
+                    <dd>
+                        <ul class="tags">
                             <li>Node.js</li>
-                            <li>Gen AI Integration</li>
+                            <li>Backend for frontend</li>
+                            <li>REST</li>
+                            <li>Supabase</li>
+                            <li>PostgreSQL</li>
+                            <li>Data grids</li>
                         </ul>
-
-                        <div class="timeline" data-animate-el>
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Languages</h3>
-                                        <h5 class="timeline__meta">Javascript, TypeScript, HTML, CSS, Java, CSS3, SCSS,
-                                            Less/Sass</h5>
-                                </div>
-                            </div>
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Frameworks/Libraries</h3>
-                                        <h5 class="timeline__meta">React, Angular, Bootstrap, jQuery, Redux, Context
-                                            API, Jest, React Routers, GraphQL, Webpack</h5>
-                                </div>
-                            </div>
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Other Skills</h3>
-                                        <h5 class="timeline__meta">RESTful API, Integration, GraphQL, npm, Git, Jenkins,
-                                            Agile Methodologies, Accessibility Standards, Responsive Web Development,
-                                            Web Analytics, Webpack, Data Structures and Algorithms</h5>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div> <!-- end about-expertise -->
-
-
-                <div id="experience" class="row about-timelines target-section" data-animate-block>
-
-                    <div class="column lg-6 tab-12">
-
-                        <h2 class="text-pretitle" data-animate-el>
-                            Experience
-                        </h2>
-
-                        <div class="timeline" data-animate-el>
-
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Kaiser Permanente</h3>
-                                        <h5 class="timeline__meta">Senior IT Engineer - Web Applications</h5>
-                                        <p class="timeline__timeframe">July 2025 - Present</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>Built a full-stack JSON Visualizer developer tool within AEM featuring
-                                        interactive SVG graph rendering,
-                                        real-time node editing, tag-to-JSON conversion with cascading dropdowns, and DAM
-                                        upload with conflict
-                                        resolution.
-                                    </p>
-                                    <p>
-                                        Led migration of legacy HR system from jQuery/Angular to React with TypeScript,
-                                        improving code maintainability and reducing debug cycles
-                                    </p>
-                                    <p>
-                                        Built role-based permission and impersonation control system for healthcare
-                                        compliance requirements.
-                                    </p>
-                                    <p>
-                                        Implemented WCAG 2.1 AA accessibility standards across all features, achieving
-                                        90+ Lighthouse scores and
-                                        passing ADA compliance audits
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Publicis Sapient</h3>
-                                        <h5 class="timeline__meta">Associate Technology</h5>
-                                        <p class="timeline__timeframe">October 2019 - Present</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>Developed modular style sheets utilising SASS for a multilingual website,
-                                        resulting in a 40%
-                                        decrease in CSS file size for the site and increasing maintainability and
-                                        flexibility.
-                                        Customised existing style dictionary to be used by the entire team for
-                                        development
-                                        purposes.</p>
-                                    <p>
-                                        Led custom components for the platform. Used React and Vanilla JavaScript at the
-                                        component level based on requirements.
-                                    </p>
-                                    <p>
-                                        Enhanced accessibility compliance by adhering to WCAG standards, improving
-                                        usability .
-                                    </p>
-                                    <p>
-                                        Implemented analytics to track form abandonment, identifying key friction points
-                                        and optimizing user flows, resulting in a 15% increase in customer conversions.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Tata Consultancy Services</h4>
-                                    <h5 class="timeline__meta">System Engineer</h5>
-                                    <p class="timeline__timeframe">July 2019 - October 2021</p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>
-                                        Implemented a responsive user interface for a web application using React.
-                                        Integrated the API calls. Contributed to design planning and user experience to
-                                        boost overall customer satisfaction ratings
-                                    </p>
-                                    <p>
-                                        Automated testing with Selenium (Java) for both iOS and web platforms;
-                                        streamlined the quality assurance process, reducing testing time and enhancing
-                                        test coverage by 20%
-                                    </p>
-                                    <p>
-                                        Developed the demo project for the network operator dashboard for MWC 2020
-                                    </p>
-                                    <p>
-                                        Crafted data visualization libraries with React to transform complex network
-                                        logs into interactive dashboards. Optimised the existing app by creating
-                                        reusable components and reduced API calls.
-                                    </p>
-                                </div>
-                            </div>
-
-                        </div> <!-- end timeline -->
-
-                    </div> <!-- end column -->
-
-                    <div class="column lg-6 tab-12">
-
-                        <h2 class="text-pretitle" data-animate-el>
-                            Education
-                        </h2>
-
-                        <div class="timeline" data-animate-el>
-
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Guru Gobind Singh Indraprastha University</h3>
-                                        <h5 class="timeline__meta">Bachelor in Technology - Computer Science</h5>
-                                        <p class="timeline__timeframe">August 2015 - May 2019</p>
-                                </div>
-                            </div>
-
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Higher Secondary Certification - XII</h4>
-                                    <h5 class="timeline__meta">Gagan Bharti Senior Secondary Public School</h5>
-                                    <p class="timeline__timeframe">April 2014 - May 2015</p>
-                                </div>
-                            </div>
-
-                        </div> <!-- end timeline -->
-
-                        <!-- Projects -->
-                        <h2 class="text-pretitle" data-animate-el>
-                            Projects
-                        </h2>
-
-                        <div class="timeline" data-animate-el>
-
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Sensei Mods – Custom PC Cable Configurator</h4>
-                                        <h5 class="timeline__meta">Angular 16 • TypeScript • SCSS • Angular Material • Bootstrap • RxJS • REST APIs • Razorpay</h5>
-                                        <p class="timeline__timeframe"><a href="https://www.senseimods.com/" target="_blank">Website</a></p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>An e-commerce Single Page Application (SPA) designed for PC enthusiasts to fully customize computer cable aesthetics.</p>
-                                    <ul>
-                                        <li>
-                                            <strong>Core Feature:</strong> Engineered a real-time, interactive 3D-style configurator allowing users to visualize cable colors, pin types, and slot arrangements before purchase.
-                                        </li>
-                                        <li>
-                                            <strong>Outcome:</strong> Integrated Razorpay for seamless transactions and optimized rendering performance, resulting in a 30% increase in user session duration.
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="timeline__block">
-                                <div class="timeline__bullet"></div>
-                                <div class="timeline__header">
-                                    <h4 class="timeline__title">Insta Carousel - Creative Posting Tool</h4>
-                                    <h5 class="timeline__meta">React 19 • TypeScript • Vite 5 • Zustand • IndexedDB • FFmpeg • PWA</h5>
-                                    <p class="timeline__timeframe"><a href="https://gr4mpus.github.io/Insta-Carousel/" target="_blank">Website</a></p>
-                                </div>
-                                <div class="timeline__desc">
-                                    <p>An offline-first Progressive Web App (PWA) that provides an infinite horizontal canvas for seamless Instagram carousel creation, built entirely with client-side processing.</p>
-                                    <ul>
-                                        <li><strong>Core Feature:</strong> Engineered a professional-grade, non-destructive editing environment that handles both images and videos (via WebAssembly/FFmpeg) directly in the browser.</li>
-                                        <li><strong>Outcome:</strong> Delivered a 100% offline-capable application leveraging OPFS and persistent storage, eliminating server dependency and ensuring zero-latency media manipulation.</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                        </div> <!-- end timeline -->
-
-                    </div> <!-- end column -->
-
-
-                </div> <!-- end about-timelines -->
-
-            </section> <!-- end s-about -->
-
-
-
-            <!-- ### contact
-            ================================================== -->
-            <section id="contact" class="s-contact target-section">
-
-                <div class="row contact-top">
-                    <div class="column lg-12">
-                        <h2 class="text-pretitle">
-                            Get In Touch
-                        </h2>
-
-                        <p class="h1">
-                            I would love to hear from you.
-                            Whether you have a question or just
-                            want to chat about tech & art — shoot me a message.
-                        </p>
-                    </div>
-                </div> <!-- end contact-top -->
-
-                <div class="row contact-bottom">
-                    <div class="column lg-3 md-5 tab-6 stack-on-550 contact-block">
-                        <h3 class="text-pretitle">Reach me at</h3>
-                        <p class="contact-links">
-                            <a href="mailto:hello@rahulprasad.co.in" class="mailtoui">hello@rahulprasad.co.in</a> <br>
-                            <a href="tel:+919560520021">+91-9560520021</a>
-                        </p>
-                    </div>
-                    <div class="column lg-4 md-5 tab-6 stack-on-550 contact-block">
-                        <h3 class="text-pretitle">Social</h3>
-                        <ul class="contact-social">
-                            <li><a target="_blank" href="https://github.com/gr4mpus">Github</a></li>
-                            <li><a target="_blank" href="https://www.linkedin.com/in/grampus/">Linkedin</a></li>
-                            <li><a target="_blank" href="https://www.instagram.com/0rca96/">Instagram</a></li>
+                    </dd>
+                </div>
+                <div class="skills__group">
+                    <dt>Performance</dt>
+                    <dd>
+                        <ul class="tags">
+                            <li>Core Web Vitals</li>
+                            <li>Code splitting</li>
+                            <li>Lazy loading</li>
+                            <li>Bundle analysis</li>
+                            <li>Event telemetry</li>
                         </ul>
-                    </div>
-                    <div class="column lg-4 md-12 contact-block">
-                        <a href="mailto:hello@rahulprasad.co.in"
-                            class="mailtoui btn btn--medium u-fullwidth contact-btn">Say Hello.</a>
-                    </div>
-                </div> <!-- end contact-bottom -->
+                    </dd>
+                </div>
+                <div class="skills__group">
+                    <dt>Testing and delivery</dt>
+                    <dd>
+                        <ul class="tags">
+                            <li>Jest</li>
+                            <li>React Testing Library</li>
+                            <li>Cypress</li>
+                            <li>TDD</li>
+                            <li>Docker</li>
+                            <li>Kubernetes</li>
+                            <li>Jenkins</li>
+                            <li>Claude, Copilot and MCP</li>
+                        </ul>
+                    </dd>
+                </div>
+                <div class="skills__group">
+                    <dt>Education</dt>
+                    <dd class="skills__text">B.Tech in Computer Science and Engineering, Guru Gobind Singh Indraprastha University, New Delhi, 2015 to 2019</dd>
+                </div>
+            </dl>
+        </section>
 
-            </section> <!-- end contact -->
 
-        </main> <!-- end s-content -->
+        <!-- Contact -->
+        <section id="contact" class="contact" aria-labelledby="contact-title">
+            <h2 id="contact-title" class="contact__title">Hiring for a frontend or platform role, or have a product to build? I'd like to hear about it.</h2>
 
+            <a class="contact__email" href="mailto:hello@rahulprasad.co.in">hello@rahulprasad.co.in</a>
 
-    </div> <!-- end -s-pagewrap -->
+            <ul class="contact__links">
+                <li><a href="tel:+919560520021">+91 95605 20021</a></li>
+                <li><a href="https://www.linkedin.com/in/grampus/" target="_blank" rel="noopener">LinkedIn</a></li>
+                <li><a href="https://github.com/gr4mpus" target="_blank" rel="noopener">GitHub</a></li>
+                <li><a href="https://www.instagram.com/gr4mpus/" target="_blank" rel="noopener">Instagram</a></li>
+            </ul>
+        </section>
 
+    </main>
 
-    <!-- Java Script
-    ================================================== -->
-    <script src="js/plugins.js"></script>
+    <footer class="footer">
+        <p>&copy; <span data-year>2026</span> Rahul Prasad</p>
+        <a href="#top">Back to top</a>
+    </footer>
+
     <script src="js/main.js"></script>
-
 </body>
 
 </html>
