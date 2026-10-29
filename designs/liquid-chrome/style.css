@@ -168,7 +168,10 @@ main { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
 
 .hero__name {
     margin-top: .6rem;
-    font-size: clamp(3.4rem, 1.5rem + 7.4vw, 8.4rem);
+    /* sized to stay inside its column; the gradient only paints inside the box */
+    width: max-content;
+    max-width: 100%;
+    font-size: clamp(3.2rem, 1rem + 5.4vw, 7rem);
     font-weight: 800;
     letter-spacing: -.06em;
     line-height: .88;
@@ -176,7 +179,7 @@ main { max-width: 76rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
 }
 
 .hero__name span { display: block; padding-right: .12em; }
-.hero__name span + span { padding-left: .55em; }
+.hero__name span + span { padding-left: .35em; }
 
 .hero__lede { max-width: 32rem; margin-top: 1.75rem; color: var(--muted); font-size: 1.1rem; }
 .hero__actions { display: flex; flex-wrap: wrap; gap: .9rem; margin-top: 2rem; }
