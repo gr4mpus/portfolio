@@ -46,7 +46,7 @@
     /* Add .is-in to [data-reveal] elements as they enter the viewport.
        Elements arriving in the same frame get a staggered --d delay. */
     function reveal(options) {
-        const opts = Object.assign({ stagger: 90, max: 8, margin: '0px 0px -10% 0px', threshold: 0.12 }, options);
+        const opts = Object.assign({ stagger: 90, max: 8, margin: '0px 0px -10% 0px', threshold: 0 }, options);
         const items = document.querySelectorAll('[data-reveal]:not(.is-in)');
 
         if (reduced || !('IntersectionObserver' in window)) {
