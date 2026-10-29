@@ -160,7 +160,7 @@ a { color: inherit; }
 
 .win--photo { justify-self: end; width: min(100%, 22rem); transform: rotate(2deg); }
 .win--photo .win__body { padding: 4px; background: #fff; box-shadow: inset 1px 1px var(--win-dark), inset -1px -1px #fff; }
-.win--photo img { width: 100%; aspect-ratio: 4 / 4.4; object-fit: cover; filter: url(#duo) contrast(1.1); }
+.win--photo img { width: 100%; aspect-ratio: 4 / 4.4; object-fit: cover; object-position: 62% 50%; }
 .win--about { transform: rotate(-1deg); }
 
 .stats { display: flex; flex-wrap: wrap; gap: 1rem; }

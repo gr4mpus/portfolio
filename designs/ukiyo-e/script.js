@@ -1,4 +1,4 @@
-/* Ukiyo-e: a woodblock print */
+/* Ukiyo-e: a woodblock print, with the portrait mounted as a hanging scroll */
 (function () {
     "use strict";
 
@@ -6,49 +6,75 @@
     const e = Kit.esc;
     const app = document.getElementById('app');
 
-    /* Woodblock filter: posterise the photo into a few flat ink tones */
     const defs = `
     <svg class="defs" width="0" height="0" aria-hidden="true">
         <defs>
-            <filter id="woodblock" color-interpolation-filters="sRGB">
-                <feComponentTransfer>
-                    <feFuncR type="discrete" tableValues="0.11 0.36 0.78 0.94"/>
-                    <feFuncG type="discrete" tableValues="0.16 0.33 0.62 0.89"/>
-                    <feFuncB type="discrete" tableValues="0.27 0.36 0.45 0.80"/>
-                </feComponentTransfer>
-            </filter>
             <pattern id="seigaiha" width="40" height="20" patternUnits="userSpaceOnUse">
-                <g fill="none" stroke="#efe4cc" stroke-width="1.4">
+                <g fill="none" stroke="currentColor" stroke-width="1.4">
                     <circle cx="20" cy="20" r="18"/><circle cx="20" cy="20" r="13"/><circle cx="20" cy="20" r="8"/>
                     <circle cx="0" cy="10" r="18"/><circle cx="0" cy="10" r="13"/><circle cx="0" cy="10" r="8"/>
                     <circle cx="40" cy="10" r="18"/><circle cx="40" cy="10" r="13"/><circle cx="40" cy="10" r="8"/>
                 </g>
             </pattern>
+            <linearGradient id="bokashi" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#1c2945"/>
+                <stop offset=".55" stop-color="#24497a"/>
+                <stop offset="1" stop-color="#3f74a8"/>
+            </linearGradient>
         </defs>
     </svg>`;
 
-    /* The great wave: a rising body with a curling crest and claw-like foam */
-    const claws = Array.from({ length: 14 }, (_, i) => {
-        const a = -2.3 + i * .16, r = 150 + (i % 3) * 8;
-        const x = 420 + Math.cos(a) * r, y = 250 + Math.sin(a) * r;
-        return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${(9 - (i % 4)).toFixed(0)}"/>`;
-    }).join('');
+    /* Foam claws along the crest of the great wave */
+    const claws = function (cx, cy, r, from, to, n) {
+        return Array.from({ length: n }, (_, i) => {
+            const a = from + (to - from) * i / (n - 1);
+            const x = cx + Math.cos(a) * r, y = cy + Math.sin(a) * r;
+            const s = 7 + (i % 3) * 3;
+            return `<path class="claw" style="--i:${i}" d="M${x.toFixed(1)} ${y.toFixed(1)} q ${(-s * .6).toFixed(1)} ${(-s).toFixed(1)} ${(s * .3).toFixed(1)} ${(-s * 1.4).toFixed(1)} q ${(s * .2).toFixed(1)} ${(s * .7).toFixed(1)} ${(s * .9).toFixed(1)} ${(s * .5).toFixed(1)} q ${(-s * .3).toFixed(1)} ${(s * .5).toFixed(1)} ${(-s * 1.2).toFixed(1)} ${(s * .9).toFixed(1)} z"/>`;
+        }).join('');
+    };
 
-    const wave = `
-    <svg class="wave" viewBox="0 0 900 520" aria-hidden="true">
-        <path class="wave__far" d="M0 420 C 120 380, 220 400, 300 380 S 460 330, 560 370 S 760 400, 900 360 L900 520 L0 520 Z"/>
-        <g class="wave__fuji">
-            <path d="M600 380 L700 250 L800 380 Z" fill="#2a3c5f"/>
-            <path d="M680 276 L700 250 L720 276 L710 282 L700 272 L690 284 Z" fill="#f6efe0"/>
-        </g>
-        <g class="wave__big">
-            <path class="wave__body" d="M0 520 L0 300 C 60 260, 140 250, 220 230 C 300 210, 340 130, 420 100 C 510 70, 600 110, 620 170 C 630 205, 600 230, 570 220 C 540 210, 560 170, 520 160 C 470 150, 450 220, 470 280 C 500 360, 600 400, 700 430 L900 470 L900 520 Z"/>
-            <path class="wave__stripes" d="M0 520 L0 300 C 60 260, 140 250, 220 230 C 300 210, 340 130, 420 100 C 510 70, 600 110, 620 170 C 630 205, 600 230, 570 220 C 540 210, 560 170, 520 160 C 470 150, 450 220, 470 280 C 500 360, 600 400, 700 430 L900 470 L900 520 Z"/>
-            <path class="wave__lip" d="M380 112 C 450 74, 560 80, 612 150 C 622 175, 610 200, 590 205"/>
-            <g class="wave__foam">${claws}</g>
-        </g>
-        <path class="wave__near" d="M0 470 C 90 440, 160 450, 230 440 C 290 430, 320 400, 360 405 C 400 410, 390 445, 360 448 L380 460 C 460 470, 600 450, 700 470 S 860 490, 900 480 L900 520 L0 520 Z"/>
-    </svg>`;
+    /* Gold mist bands (suyari-gasumi): long rounded bars, stacked and offset */
+    const mist = function (cls, widths) {
+        return `<div class="mist ${cls}" aria-hidden="true">${widths.map((w, i) => `<span style="--w:${w}%;--x:${(i * 17) % 30}%"></span>`).join('')}</div>`;
+    };
+
+    /* A skein of cranes in a loose V */
+    const crane = function (x, y, s, d) {
+        return `<g class="crane" transform="translate(${x} ${y}) scale(${s})" style="--d:${d}s">
+            <path class="crane__wing" d="M0 0 C -14 -10, -30 -12, -46 -6 C -30 -4, -16 0, -4 6 Z"/>
+            <path class="crane__wing crane__wing--far" d="M0 0 C 10 -14, 26 -22, 40 -24 C 28 -14, 14 -4, 4 6 Z"/>
+            <path d="M-4 6 C 6 4, 20 2, 34 6 C 22 8, 8 10, -4 6 Z" fill="#f6efe0"/>
+            <circle cx="35" cy="5.6" r="2.2" fill="#c8442a"/>
+        </g>`;
+    };
+
+    const print = `
+    <div class="print" aria-hidden="true">
+        <div class="layer layer--sky" style="--b:0"></div>
+        <div class="layer layer--sun" style="--b:1"></div>
+        ${mist('layer mist--high', [46, 30, 38])}
+        <svg class="layer layer--fuji" style="--b:2" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMax slice"><g transform="translate(-250 0)">
+            <path d="M560 500 L790 236 C 800 226, 812 226, 822 236 L1060 500 Z" fill="#2a3c5f"/>
+            <path d="M762 268 L790 236 C 800 226, 812 226, 822 236 L852 270 L832 262 L818 276 L804 260 L790 278 L778 262 Z" fill="#f6efe0"/>
+        </g></svg>
+        <svg class="layer layer--cranes" style="--b:3" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMid slice">
+            <g class="flock">
+                ${crane(0, 0, 1, 0)}${crane(-60, 26, .8, .25)}${crane(-110, 50, .7, .5)}${crane(-56, -30, .75, .15)}${crane(-100, -56, .62, .4)}
+            </g>
+        </svg>
+        <svg class="layer layer--wave" style="--b:4" viewBox="0 0 1200 500" preserveAspectRatio="xMidYMax slice">
+            <path class="sea sea--far" d="M0 420 C 150 400, 260 410, 380 396 S 640 372, 760 392 S 1040 410, 1200 384 L1200 500 L0 500 Z"/>
+            <g class="great">
+                <path class="great__body" d="M0 500 L0 300 C 70 270, 150 270, 230 250 C 310 228, 340 150, 420 118 C 510 84, 600 118, 626 178 C 638 210, 612 238, 580 230 C 548 222, 566 184, 530 172 C 478 160, 458 230, 478 290 C 508 370, 610 410, 720 440 L1200 470 L1200 500 Z"/>
+                <path class="great__pattern" d="M0 500 L0 300 C 70 270, 150 270, 230 250 C 310 228, 340 150, 420 118 C 510 84, 600 118, 626 178 C 638 210, 612 238, 580 230 C 548 222, 566 184, 530 172 C 478 160, 458 230, 478 290 C 508 370, 610 410, 720 440 L1200 470 L1200 500 Z"/>
+                <path class="great__lip" d="M392 132 C 466 92, 576 98, 616 160 C 628 186, 614 210, 594 214"/>
+                <g class="foam">${claws(500, 200, 118, -2.45, -.32, 16)}</g>
+            </g>
+            <path class="sea sea--near" d="M0 470 C 90 446, 170 454, 240 444 C 300 436, 330 408, 372 412 C 414 416, 404 450, 374 452 L392 462 C 500 476, 640 452, 760 470 S 1000 486, 1200 474 L1200 500 L0 500 Z"/>
+        </svg>
+        ${mist('layer mist--low', [52, 34])}
+    </div>`;
 
     const hanko = function (text, cls) { return `<span class="hanko ${cls || ''}" aria-hidden="true">${e(text)}</span>`; };
 
@@ -66,36 +92,48 @@
 
     <main id="top">
         <section class="hero" aria-labelledby="hero-name">
-            <div class="print" data-load>
-                <div class="sky" aria-hidden="true"></div>
-                ${wave}
-                <div class="cartouche-v" data-load>
-                    <h1 id="hero-name">${e(P.name)}</h1>
-                    <p>${e(P.role)}</p>
-                </div>
-                ${hanko('RP', 'hanko--seal')}
-            </div>
+            ${print}
 
-            <div class="hero__side">
-                <figure class="portrait" data-load>
-                    <img src="${e(P.photo)}" alt="${e(P.photoAlt)}" width="800" height="1000">
-                    <figcaption>${e(P.location)}</figcaption>
+            <div class="hero__inner">
+                <div class="hero__copy">
+                    <div class="cartouche" data-load>
+                        <h1 id="hero-name">${e(P.name)}</h1>
+                        <p>${e(P.role)}</p>
+                    </div>
+                    <div class="hero__words">
+                        <p class="hero__lede" data-load>${e(P.lede)}</p>
+                        <div class="hero__actions" data-load>
+                            <a class="btn btn--red" href="${e(P.cv)}" target="_blank" rel="noopener">Download CV</a>
+                            <a class="btn" href="mailto:${e(P.email)}">Email me</a>
+                        </div>
+                    </div>
+                </div>
+
+                <figure class="kakejiku">
+                    <span class="kakejiku__cord" aria-hidden="true"></span>
+                    <span class="kakejiku__roller kakejiku__roller--top" aria-hidden="true"></span>
+                    <div class="kakejiku__body">
+                        <div class="kakejiku__clip">
+                            <div class="kakejiku__mount">
+                                <div class="kakejiku__photo">
+                                    <img src="${e(P.photo)}" alt="${e(P.photoAlt)}" width="800" height="1000">
+                                </div>
+                                ${hanko('RP', 'hanko--photo')}
+                            </div>
+                        </div>
+                    </div>
+                    <span class="kakejiku__roller kakejiku__roller--bottom" aria-hidden="true"></span>
+                    <figcaption>${e(P.location)}, at dusk</figcaption>
                 </figure>
-                <p class="hero__lede" data-load>${e(P.lede)}</p>
-                <div class="hero__actions" data-load>
-                    <a class="btn btn--red" href="${e(P.cv)}" target="_blank" rel="noopener">Download CV</a>
-                    <a class="btn" href="mailto:${e(P.email)}">Email me</a>
-                </div>
             </div>
-
-            <dl class="facts">
-                ${P.facts.map(f => `<div data-load><dt>${e(f.label)}</dt><dd>${e(f.value)}</dd></div>`).join('')}
-            </dl>
         </section>
 
-        <div class="band" aria-hidden="true"><svg width="100%" height="40"><rect width="100%" height="40" fill="url(#seigaiha)"/></svg></div>
+        <dl class="facts">
+            ${P.facts.map((f, i) => `<div data-reveal><dt>${e(f.label)}</dt><dd>${e(f.value)}</dd></div>`).join('')}
+        </dl>
 
         <section id="work" class="section" aria-labelledby="work-title">
+            ${mist('mist--drift', [40, 26])}
             <h2 id="work-title" class="title" data-reveal><span>Experience</span></h2>
             ${P.jobs.map((j, ji) => `
             <article class="scroll" data-reveal>
@@ -119,9 +157,8 @@
             </article>`).join('')}
         </section>
 
-        <div class="band" aria-hidden="true"><svg width="100%" height="40"><rect width="100%" height="40" fill="url(#seigaiha)"/></svg></div>
-
         <section id="projects" class="section" aria-labelledby="projects-title">
+            ${mist('mist--drift mist--right', [36, 48])}
             <h2 id="projects-title" class="title" data-reveal><span>Projects</span></h2>
             <div class="projects">
                 ${P.projects.map((p, i) => `
@@ -151,7 +188,7 @@
         </section>
 
         <section id="contact" class="contact" aria-labelledby="contact-title">
-            <svg class="contact__sea" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true"><rect width="1200" height="120" fill="url(#seigaiha)"/></svg>
+            <svg class="contact__sea" aria-hidden="true"><rect width="100%" height="100%" fill="url(#seigaiha)"/></svg>
             <div class="contact__inner" data-reveal>
                 <h2 id="contact-title" class="contact__line">${e(P.contactLine)}</h2>
                 <a class="contact__email" href="mailto:${e(P.email)}">${e(P.email)}</a>
@@ -169,11 +206,29 @@
         <a href="#top">Back to top</a>
     </footer>`;
 
-    /* The wave rises and leans with scroll; Fuji stays put */
+
+    /* Scroll: the wave surges, mist drifts, and the scroll sways in the breeze */
+    const root = document.documentElement;
+    const scrollEl = document.querySelector('.kakejiku');
+    let sway = 0, vel = 0, lastY = scrollY, running = false;
+
+    function settle() {
+        vel += -sway * .04;
+        vel *= .92;
+        sway += vel;
+        scrollEl.style.setProperty('--sway', sway.toFixed(3) + 'deg');
+        if (Math.abs(sway) > .005 || Math.abs(vel) > .005) requestAnimationFrame(settle);
+        else running = false;
+    }
+
     Kit.onScroll(function (_, y) {
+        root.style.setProperty('--surge', Math.min(1, y / 700).toFixed(3));
+        root.style.setProperty('--drift', y.toFixed(0));
         if (Kit.reduced) return;
-        const t = Math.min(1, y / 600);
-        document.documentElement.style.setProperty('--surge', t.toFixed(3));
+        const dy = y - lastY;
+        lastY = y;
+        vel += Math.max(-.6, Math.min(.6, dy * .02));
+        if (!running) { running = true; requestAnimationFrame(settle); }
     });
 
     Kit.reveal({

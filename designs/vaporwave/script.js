@@ -22,20 +22,8 @@
         </${o.tag || 'div'}>`;
     };
 
-    const defs = `
-    <svg class="defs" width="0" height="0" aria-hidden="true">
-        <filter id="duo" color-interpolation-filters="sRGB">
-            <feColorMatrix type="matrix" values=".33 .33 .33 0 0  .33 .33 .33 0 0  .33 .33 .33 0 0  0 0 0 1 0"/>
-            <feComponentTransfer>
-                <feFuncR type="table" tableValues="0.1 1"/>
-                <feFuncG type="table" tableValues="0.05 0.85"/>
-                <feFuncB type="table" tableValues="0.45 0.99"/>
-            </feComponentTransfer>
-        </filter>
-    </svg>`;
 
     app.innerHTML = `
-    ${defs}
     <main id="top">
         <section class="scene" aria-labelledby="hero-name">
             <div class="sky" aria-hidden="true">
