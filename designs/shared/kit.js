@@ -15,24 +15,13 @@
     root.classList.add('kit-js');
 
     const DESIGNS = [
-        { slug: 'skeuomorphism', name: 'Skeuomorphism' },
-        { slug: 'neumorphism', name: 'Neumorphism' },
         { slug: 'art-nouveau', name: 'Art Nouveau' },
         { slug: 'liquid-chrome', name: 'Liquid chrome' },
         { slug: 'de-stijl', name: 'De Stijl' },
-        { slug: 'memphis', name: 'Memphis' },
-        { slug: 'psychedelic', name: 'Psychedelic' },
         { slug: 'vaporwave', name: 'Vaporwave' },
-        { slug: 'steampunk', name: 'Steampunk' },
-        { slug: 'grunge', name: 'Grunge' },
-        { slug: 'paper-cutout', name: 'Paper cutout' },
         { slug: 'glitch', name: 'Glitch' },
         { slug: 'anti-design', name: 'Anti-design' },
-        { slug: '3d-inflated', name: '3D inflated' },
-        { slug: 'isometric', name: 'Isometric' },
-        { slug: 'ukiyo-e', name: 'Ukiyo-e' },
-        { slug: 'brutalism', name: 'Brutalism' },
-        { slug: 'bauhaus', name: 'Bauhaus' }
+        { slug: 'ukiyo-e', name: 'Ukiyo-e' }
     ];
 
     function esc(value) {
