@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rahul Prasad, design studies</title>
+    <meta name="description" content="Eighteen design studies of Rahul Prasad's portfolio, one per design movement.">
+    <meta name="theme-color" content="#f3f1ec">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@400;500;600&display=swap">
+    <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+    <style>
+        :root { --bg: #f3f1ec; --ink: #18181a; --muted: #6b6a66; --line: #dcd8cf; }
+        *, *::before, *::after { box-sizing: border-box; }
+        body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Inter Tight", system-ui, sans-serif; font-size: 1rem; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+        a { color: inherit; }
+        :focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+        .wrap { max-width: 82rem; margin: 0 auto; padding: 0 clamp(1rem, 4vw, 2.5rem); }
+
+        header { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 22rem); gap: 1rem 3rem; align-items: end; padding: clamp(3rem, 8vw, 6rem) 0 clamp(2rem, 5vw, 3.5rem); border-bottom: 1px solid var(--line); }
+        h1 { margin: 0; font-family: "Instrument Serif", Georgia, serif; font-weight: 400; font-size: clamp(3rem, 1.6rem + 6vw, 7rem); line-height: .92; letter-spacing: -.02em; }
+        h1 i { color: var(--muted); }
+        header p { margin: 0; color: var(--muted); }
+        header nav { margin-top: 1rem; display: flex; gap: 1.25rem; }
+
+        ol { list-style: none; margin: 0; padding: clamp(2rem, 5vw, 3rem) 0 5rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.5rem 1.75rem; counter-reset: s; }
+        li { counter-increment: s; }
+        .card { display: block; text-decoration: none; }
+        .card__img { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 6px; background: #e4e0d7; box-shadow: 0 1px 2px rgba(0,0,0,.06), 0 12px 30px -16px rgba(0,0,0,.35); }
+        .card__img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .7s cubic-bezier(.2,.8,.2,1); }
+        .card:hover .card__img img, .card:focus-visible .card__img img { transform: scale(1.04); }
+        .card__meta { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-top: .85rem; }
+        .card__name { font-family: "Instrument Serif", Georgia, serif; font-size: 1.65rem; line-height: 1.1; }
+        .card__no { color: var(--muted); font-size: .85rem; font-variant-numeric: tabular-nums; }
+        .card__no::before { content: counter(s, decimal-leading-zero); }
+        .card__note { margin: .2rem 0 0; color: var(--muted); font-size: .92rem; }
+
+        li { opacity: 0; transform: translateY(24px); animation: up .8s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--i) * 45ms); }
+        @keyframes up { to { opacity: 1; transform: none; } }
+        @media (prefers-reduced-motion: reduce) { li { animation: none; opacity: 1; transform: none; } }
+
+        @media (max-width: 960px) { ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } header { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { ol { grid-template-columns: 1fr; } }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <header>
+            <h1>Eighteen ways<br><i>to say the same thing</i></h1>
+            <div>
+                <p>The same portfolio, the same words, rebuilt in eighteen design movements. Each study has its own load sequence and scroll motion. Use the arrows at the bottom left of any study to move between them.</p>
+                <nav><a href="../">Back to the live portfolio</a></nav>
+            </div>
+        </header>
+
+        <ol id="list"></ol>
+    </div>
+
+    <script src="shared/kit.js"></script>
+    <script>
+        (function () {
+            var notes = {
+                'skeuomorphism': 'A walnut desk of real objects: polaroid, folders, cork board, a wax-sealed envelope.',
+                'neumorphism': 'A soft control panel with a knob that turns as you scroll.',
+                'art-nouveau': 'A Mucha poster with whiplash vines that draw themselves.',
+                'liquid-chrome': 'Mercury metaballs that follow the pointer, chrome type, glass.',
+                'de-stijl': 'A Mondrian composition; every cell wipes in from an edge.',
+                'memphis': 'Squiggles, confetti and patterned shadows that drift with scroll.',
+                'psychedelic': 'A liquid-light plasma and melting poster lettering.',
+                'vaporwave': 'A neon sunset grid and a working Windows 95 desktop.',
+                'steampunk': 'Meshing brass gears, pressure gauges and parchment patents.',
+                'grunge': 'A photocopied zine: torn scraps, tape, ransom-note headings.',
+                'paper-cutout': 'A pop-up book of layered paper hills that move in depth.',
+                'glitch': 'A corrupted feed: decoding names, RGB splits, datamosh.',
+                'anti-design': 'Browser defaults, a marquee and a cropped giant name, on purpose.',
+                '3d-inflated': 'Puffy letters, balloons and pillow cards that inflate in.',
+                'isometric': 'The career as a small city, one tower per employer.',
+                'ukiyo-e': 'A woodblock print with a great wave and stamped seals.',
+                'brutalism': 'Board-formed concrete, cast lettering, floors and an elevation gauge.',
+                'bauhaus': 'Circle, square and triangle assembling a diagonal poster.'
+            };
+            var list = document.getElementById('list');
+            list.innerHTML = Kit.DESIGNS.map(function (d, i) {
+                return '<li style="--i:' + i + '"><a class="card" href="' + d.slug + '/">' +
+                    '<div class="card__img"><img src="thumbs/' + d.slug + '.jpg" alt="" width="720" height="450" loading="' + (i < 6 ? 'eager' : 'lazy') + '"></div>' +
+                    '<div class="card__meta"><span class="card__name">' + Kit.esc(d.name) + '</span><span class="card__no"></span></div>' +
+                    '<p class="card__note">' + Kit.esc(notes[d.slug] || '') + '</p></a></li>';
+            }).join('');
+        })();
+    </script>
+</body>
+
+</html>
