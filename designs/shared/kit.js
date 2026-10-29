@@ -139,7 +139,7 @@
             const t = Math.min(1, (now - start) / ms);
             const eased = 1 - Math.pow(1 - t, 3);
             const value = (target * eased).toFixed(decimals);
-            const shown = match[0].includes(',') ? Number(value).toLocaleString('en-IN') : value;
+            const shown = match[0].includes(',') ? Number(value).toLocaleString('en-US') : value;
             el.textContent = text.replace(match[0], shown);
             if (t < 1) requestAnimationFrame(frame);
             else el.textContent = text;
