@@ -63,7 +63,7 @@
         <section class="hero" aria-labelledby="hero-name">
             <p class="hero__word" aria-hidden="true" data-select="Text / Portfolio">Portfolio</p>
             <figure class="hero__photo" data-select="Image / Rahul">
-                <img src="../../images/rahul-suit.webp" alt="Rahul in a dark double-breasted suit, white shirt and black tie" width="922" height="1400">
+                <img src="../../images/rahul-suit-photo.webp" alt="Rahul in a dark double-breasted suit, white shirt and black tie" width="960" height="1200">
             </figure>
 
             <div class="hero__copy">
@@ -360,6 +360,7 @@
     /* linger briefly, then fade away */
     function leave(c) {
         c.leaving = true;
+        if (c.stay) return park(c);
         setTimeout(function () {
             if (c.queue.length) { c.leaving = false; return work(c); }
             c.node.classList.remove('is-on');
@@ -371,6 +372,36 @@
             });
         }, 700);
     }
+
+    /* the photo's cursor stays on the photo, drifting gently, after the build */
+    const parked = [];
+    function park(c) {
+        working--;
+        status();
+        c.node.classList.add('is-parked');
+        const r = c.stay.getBoundingClientRect();
+        c.px = (c.x - r.left) / r.width;
+        c.py = (c.y - r.top) / r.height;
+        const home = [.62, .58];
+        const sx = c.px, sy = c.py;
+        animate(900, function (t) {
+            const k = ease(t);
+            c.px = sx + (home[0] - sx) * k;
+            c.py = sy + (home[1] - sy) * k;
+        });
+        parked.push(c);
+    }
+
+    (function follow(now) {
+        parked.forEach(function (c) {
+            const r = c.stay.getBoundingClientRect();
+            const wob = Kit.reduced ? 0 : 1;
+            const x = r.left + r.width * c.px + Math.sin(now / 1400) * 10 * wob;
+            const y = r.top + r.height * c.py + Math.cos(now / 1900) * 7 * wob;
+            setCursor(c, x, y);
+        });
+        requestAnimationFrame(follow);
+    })(performance.now());
 
     function spawn(first, delay) {
         // take the next free tool in turn, so the names vary
@@ -452,7 +483,14 @@
 
     function start() {
         if (Kit.reduced) return;
-        build(heroTargets);
+        const photo = document.querySelector('.hero__photo');
+        build(heroTargets.filter(function (el) { return el !== photo; }));
+        // the photo gets its own cursor, which stays with it afterwards
+        if (enabled) {
+            const c = spawn(photo, 420);
+            if (c) { c.stay = photo; c.queue.push(photo); }
+            else pop(photo);
+        } else pop(photo);
         if (io) targets.filter(function (el) { return !el.closest('.hero'); }).forEach(function (el) { io.observe(el); });
     }
 
