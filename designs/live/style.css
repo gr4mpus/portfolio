@@ -102,10 +102,11 @@ main { max-width: 84rem; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
 /* the giant word behind the photo, lit from below */
 .hero__word {
     position: absolute;
-    left: 50%;
+    left: 0;
+    right: 0;
     top: 13%;
     z-index: -2;
-    transform: translateX(-50%);
+    text-align: center;
     font-family: var(--display);
     font-size: clamp(5rem, 1rem + 17vw, 17rem);
     line-height: .85;
@@ -304,7 +305,7 @@ main { max-width: 84rem; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
 .status__live { display: inline-flex; align-items: center; gap: .45rem; }
 .status__dot { width: 7px; height: 7px; border-radius: 50%; background: #2fbf71; box-shadow: 0 0 8px #2fbf71; animation: pulse 2s ease-in-out infinite; }
 @keyframes pulse { 50% { opacity: .35; } }
-.no-cursors .status__dot { background: var(--muted); box-shadow: none; animation: none; }
+:root:not(.is-working) .status__dot { background: var(--muted); box-shadow: none; animation: none; }
 
 .status__toggle { padding: .4rem .8rem; border: 0; border-radius: 999px; background: var(--red); color: #fff; font: inherit; letter-spacing: inherit; text-transform: inherit; cursor: pointer; }
 .status__toggle[aria-pressed="false"] { background: #2a2a2e; color: var(--ink); }
@@ -317,10 +318,9 @@ main { max-width: 84rem; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
  * ------------------------------------------------------------------- */
 .layer { position: fixed; inset: 0; z-index: 35; pointer-events: none; overflow: hidden; }
 
-.cur { position: absolute; left: 0; top: 0; display: flex; align-items: flex-start; will-change: transform; transition: opacity .3s; }
+.cur { position: absolute; left: 0; top: 0; display: flex; align-items: flex-start; will-change: transform; }
 .cur svg { width: 15px; height: 19px; fill: var(--c); stroke: #000; stroke-width: 1; filter: drop-shadow(0 2px 2px rgba(0, 0, 0, .5)); }
 .cur span { margin: 13px 0 0 -2px; padding: 2px 7px; border-radius: 4px 9px 9px 9px; background: var(--c); color: #0a0a0b; font-family: var(--body); font-size: .68rem; font-weight: 600; white-space: nowrap; }
-.no-cursors .cur { opacity: 0; }
 
 .sel {
     --sel: #3b82f6;
@@ -361,28 +361,23 @@ main { max-width: 84rem; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 4rem); }
 .sel i:nth-of-type(4) { right: -4px; bottom: -4px; }
 
 
-/* Load: wireframe first, then the real render
+/* Build states: waiting off-stage, picked up (ghost), placed
  * ------------------------------------------------------------------- */
-.kit-js .hero > *, .kit-js .nav { opacity: 0; }
-.is-wire .hero > *, .is-wire .nav { opacity: .12; filter: grayscale(1); transition: opacity .3s; }
-.is-built .hero > *, .is-built .nav { opacity: 1; filter: none; transition: opacity .7s var(--ease), filter .7s var(--ease), translate .9s var(--ease); }
-.is-built .hero__photo { transition-delay: .15s; }
-.kit-js .hero__word { translate: -50% 40px; }
-.is-built .hero__word { translate: -50% 0; transition-duration: 1.2s; }
-.hero__word { transform: none; }
-.is-built .hero__stats { transition-delay: .35s; }
+.is-pending { opacity: 0; }
+.is-ghost { opacity: .35; }
+[data-select] { transition: opacity .25s; }
+.is-popped { animation: pop .6s var(--ease) both; }
+@keyframes pop { from { opacity: 0; translate: 0 16px; } }
 
-/* Scroll: selected, then committed */
-.kit-js [data-select] { opacity: .15; translate: 0 18px; filter: blur(2px); transition: opacity .6s var(--ease), translate .7s var(--ease), filter .6s var(--ease); }
-.kit-js [data-select].is-in { opacity: 1; translate: 0 0; filter: none; }
-.kit-js .note[data-select] { translate: 30px 30px; rotate: 6deg; }
-.kit-js .note[data-select].is-in { translate: 0 0; rotate: 0deg; transition: opacity .6s, translate .8s cubic-bezier(.3, 1.5, .5, 1), rotate .8s cubic-bezier(.3, 1.5, .5, 1), filter .6s; }
+.cur { opacity: 0; transition: opacity .35s; }
+.cur.is-on { opacity: 1; }
+.cur svg { transition: transform .15s; transform-origin: 2px 2px; }
+.cur.is-press svg { transform: scale(.82); }
 
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0ms !important; animation: none !important; }
     .layer { display: none; }
-    .kit-js .hero > *, .kit-js .nav, .kit-js [data-select] { opacity: 1; translate: none; filter: none; }
 }
 
 

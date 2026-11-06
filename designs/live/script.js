@@ -60,25 +60,25 @@
     </header>
 
     <main id="top">
-        <section class="hero" aria-labelledby="hero-name" data-frame="Frame / Hero">
-            <p class="hero__word" aria-hidden="true">Portfolio</p>
-            <figure class="hero__photo" data-frame="Image / Rahul">
+        <section class="hero" aria-labelledby="hero-name">
+            <p class="hero__word" aria-hidden="true" data-select="Text / Portfolio">Portfolio</p>
+            <figure class="hero__photo" data-select="Image / Rahul">
                 <img src="../../images/rahul-cutout.webp" alt="${e(P.photoAlt)}" width="817" height="1600">
             </figure>
 
             <div class="hero__copy">
-                <p class="hero__hello" data-frame="Text / Hello">Hello, I'm</p>
-                <h1 id="hero-name" class="hero__name" data-frame="Heading / Name"><span>${e(P.first)}</span><span>${e(P.last)}<i>.</i></span></h1>
-                <p class="hero__role" data-frame="Text / Role">Senior frontend engineer<br>&amp; design systems builder</p>
-                <p class="hero__bio">I build React, Next.js and TypeScript platforms that ship to over 120,000 people. Senior Frontend Engineer at Kaiser Permanente, based in Pune.</p>
-                <a class="cta" href="#work" data-frame="Button / Primary">View work <span aria-hidden="true">↗</span></a>
-                <p class="mono hero__meta">Based in Pune, India<span aria-hidden="true">  /  </span>7 years shipping frontends</p>
+                <p class="hero__hello" data-select="Text / Hello">Hello, I'm</p>
+                <h1 id="hero-name" class="hero__name" data-select="Heading / Name"><span>${e(P.first)}</span><span>${e(P.last)}<i>.</i></span></h1>
+                <p class="hero__role" data-select="Text / Role">Senior frontend engineer<br>&amp; design systems builder</p>
+                <p class="hero__bio" data-select="Text / Bio">I build React, Next.js and TypeScript platforms that ship to over 120,000 people. Senior Frontend Engineer at Kaiser Permanente, based in Pune.</p>
+                <a class="cta" href="#work" data-select="Button / Primary">View work <span aria-hidden="true">↗</span></a>
+                <p class="mono hero__meta" data-select="Text / Meta">Based in Pune, India<span aria-hidden="true">  /  </span>7 years shipping frontends</p>
             </div>
 
-            <dl class="hero__stats" data-frame="Stack / Stats">
-                <div><dd>120k</dd><dt>People on platforms I built</dt></div>
-                <div><dd>07</dd><dt>Years in production</dt></div>
-                <div><dd>60</dd><dt>Design system components</dt></div>
+            <dl class="hero__stats">
+                <div data-select="Stat / Reach"><dd>120k</dd><dt>People on platforms I built</dt></div>
+                <div data-select="Stat / Years"><dd>07</dd><dt>Years in production</dt></div>
+                <div data-select="Stat / Components"><dd>60</dd><dt>Design system components</dt></div>
             </dl>
         </section>
 
@@ -88,7 +88,7 @@
                     <p class="mono kicker">Selected work</p>
                     <h2 id="work-title" class="display" data-select="H2 / Work">${H('Work that', 'ships.')}</h2>
                 </div>
-                <div class="section__aside">
+                <div class="section__aside" data-select="Text / Intro">
                     <p>Products I designed, built and run myself, alongside the day job. Each one is live; open it and try it.</p>
                     <dl class="mini-stats">
                         <div><dd>04</dd><dt>Live products</dt></div>
@@ -118,7 +118,7 @@
 
         <section class="stack" aria-labelledby="stack-title">
             <p id="stack-title" class="mono kicker">Stack I ship with</p>
-            <div class="stack__belt" aria-hidden="true">
+            <div class="stack__belt" aria-hidden="true" data-select="Marquee / Stack">
                 <div class="stack__track">${stack.concat(stack).map(s => `<span>${e(s)}</span>`).join('<i>•</i>')}</div>
             </div>
             <p class="visually-hidden">${stack.join(', ')}</p>
@@ -128,12 +128,12 @@
             <div class="record__big">
                 <p class="mono kicker">Track record</p>
                 <h2 id="record-title" class="display" data-select="H2 / Record">${H('Built fast.', 'Shipped real.')}</h2>
-                <p class="record__num" data-count>5x</p>
-                <p class="record__caption">more completed forms after I rebuilt abandonment recovery across 120+ multi-step forms at Publicis Sapient.</p>
+                <p class="record__num" data-count data-select="Number / Impact">5x</p>
+                <p class="record__caption" data-select="Text / Caption">more completed forms after I rebuilt abandonment recovery across 120+ multi-step forms at Publicis Sapient.</p>
             </div>
-            <ol class="timeline" data-select="List / Timeline">
+            <ol class="timeline">
                 ${track.map(t => `
-                <li>
+                <li data-select="Row / ${e(t.when)}">
                     <p class="timeline__when">${e(t.when)}</p>
                     <div>
                         <h3>${e(t.role)}</h3>
@@ -148,12 +148,12 @@
             <p class="mono kicker">About</p>
             <h2 id="about-title" class="display" data-select="H2 / About">${H('Not just pixels.', 'Platforms that scale.')}</h2>
             <div class="about__cols">
-                <p>I'm a senior frontend engineer at Kaiser Permanente, where I re-architected a legacy approvals platform into React and Next.js micro-frontends so three teams can deploy on their own.</p>
-                <p>Before that I spent four years at Publicis Sapient building a 60-component design system for a brand in 14 languages, and two at TCS on Citibank card flows and live telemetry dashboards.</p>
+                <p data-select="Text / About">I'm a senior frontend engineer at Kaiser Permanente, where I re-architected a legacy approvals platform into React and Next.js micro-frontends so three teams can deploy on their own.</p>
+                <p data-select="Text / Before">Before that I spent four years at Publicis Sapient building a 60-component design system for a brand in 14 languages, and two at TCS on Citibank card flows and live telemetry dashboards.</p>
             </div>
 
             <div class="about__grid">
-                <div>
+                <div data-select="Table / Skills">
                     <p class="mono kicker">Education and skills</p>
                     <p class="edu"><b>${e(P.education.degree)}</b><br>${e(P.education.school)}, ${e(P.education.years)}</p>
                     <dl class="table">
@@ -163,7 +163,7 @@
                 <div>
                     <p class="mono kicker">How I work</p>
                     <ol class="steps">
-                        ${steps.map((s, i) => `<li><span class="steps__no">${String(i + 1).padStart(2, '0')}</span><div><h3>${e(s[0])}</h3><p>${e(s[1])}</p></div></li>`).join('')}
+                        ${steps.map((s, i) => `<li data-select="Step / ${String(i + 1).padStart(2, '0')}"><span class="steps__no">${String(i + 1).padStart(2, '0')}</span><div><h3>${e(s[0])}</h3><p>${e(s[1])}</p></div></li>`).join('')}
                     </ol>
                 </div>
                 <aside class="note" data-select="Sticky / Note">
@@ -177,9 +177,9 @@
         <section id="contact" class="section contact" aria-labelledby="contact-title">
             <p class="mono kicker">Contact</p>
             <h2 id="contact-title" class="display" data-select="H2 / Contact">${H("Let's build", 'something real.')}</h2>
-            <p class="contact__line">${e(P.contactLine)}</p>
-            <a class="contact__email" href="mailto:${e(P.email)}">${e(P.email)}</a>
-            <ul class="contact__links mono">
+            <p class="contact__line" data-select="Text / Line">${e(P.contactLine)}</p>
+            <a class="contact__email" data-select="Link / Email" href="mailto:${e(P.email)}">${e(P.email)}</a>
+            <ul class="contact__links mono" data-select="List / Links">
                 <li><a href="${e(P.phoneHref)}">${e(P.phone)}</a></li>
                 ${P.social.map(s => `<li><a href="${e(s.href)}" target="_blank" rel="noopener">${e(s.label)}</a></li>`).join('')}
                 <li><a href="${e(P.cv)}" target="_blank" rel="noopener">Download CV</a></li>
@@ -193,7 +193,7 @@
     </footer>
 
     <div class="status" role="group" aria-label="Live cursors">
-        <span class="status__live"><span class="status__dot" aria-hidden="true"></span><span class="status__count">12</span> tools live</span>
+        <span class="status__live"><span class="status__dot" aria-hidden="true"></span><span class="status__text">Tools idle</span></span>
         <button type="button" class="status__toggle" aria-pressed="true">Cursors on</button>
     </div>
 
@@ -201,25 +201,31 @@
 
     const layer = document.querySelector('.layer');
     const root = document.documentElement;
+    const mobile = matchMedia('(max-width: 700px)').matches;
 
 
-    /* Selection boxes: a blue frame with handles and a name tag, tracked
-       to an element's position every frame while it is visible.
+    /* Selection frames: blue boxes with handles and a name tag, tracked to
+       their element every frame
        -------------------------------------------------- */
     const boxes = new Set();
 
-    function select(el, label, opts) {
-        const o = Object.assign({ life: 1600, color: null, fill: false }, opts);
+    function select(el, label, color) {
         const b = document.createElement('div');
-        b.className = 'sel' + (o.fill ? ' sel--fill' : '');
-        if (o.color) b.style.setProperty('--sel', o.color);
+        b.className = 'sel';
+        if (color) b.style.setProperty('--sel', color);
         b.innerHTML = `<span class="sel__tag">${e(label)}</span><i></i><i></i><i></i><i></i>`;
         layer.appendChild(b);
-        const box = { el: el, node: b, until: performance.now() + o.life };
+        const box = { el: el, node: b, done: false };
         boxes.add(box);
         place(box);
         requestAnimationFrame(function () { b.classList.add('is-on'); });
         return box;
+    }
+
+    function release(box) {
+        box.done = true;
+        box.node.classList.remove('is-on');
+        setTimeout(function () { box.node.remove(); boxes.delete(box); }, 350);
     }
 
     function place(box) {
@@ -229,184 +235,173 @@
         box.node.style.height = r.height + 8 + 'px';
     }
 
-    function tickBoxes(now) {
-        boxes.forEach(function (box) {
-            place(box);
-            if (now > box.until && !box.leaving) {
-                box.leaving = true;
-                box.node.classList.remove('is-on');
-                setTimeout(function () { box.node.remove(); boxes.delete(box); }, 350);
-            }
-        });
-    }
+    (function track() {
+        boxes.forEach(place);
+        requestAnimationFrame(track);
+    })();
 
 
-    /* Cursors: each one roams, then picks a visible element and selects it
+    /* Cursors: only appear when there is something to build. Each one flies
+       in, selects an element, drags it into place, then leaves.
        -------------------------------------------------- */
     const TOOLS = [
-        ['Copilot', '#7c6cf2'], ['Claude', '#e8875a'], ['Figma', '#2fbf71'], ['Storybook', '#ff4785'],
+        ['Copilot', '#7c6cf2'], ['Figma', '#2fbf71'], ['Storybook', '#ff4785'], ['Claude', '#e8875a'],
         ['Jest', '#c63d14'], ['Cypress', '#3ec6a8'], ['Lighthouse', '#f5b301'], ['axe', '#4a90e2'],
         ['Next.js', '#e8e8e8'], ['Redux', '#9a6cf5'], ['Docker', '#2496ed'], ['MCP', '#ef4a23']
     ];
+    const MAX = mobile ? 2 : 3;
+    let toolIndex = 0;
+    let enabled = !Kit.reduced;
+    let working = 0;
 
-    const mobile = matchMedia('(max-width: 700px)').matches;
-    const count = mobile ? 5 : TOOLS.length;
-    document.querySelector('.status__count').textContent = count;
-
-    const cursors = TOOLS.slice(0, count).map(function (t, i) {
+    const pool = TOOLS.map(function (t) {
         const n = document.createElement('div');
         n.className = 'cur';
         n.style.setProperty('--c', t[1]);
         n.innerHTML = `<svg viewBox="0 0 16 20"><path d="M1 1 L1 16 L5 12.5 L8 19 L10.6 17.8 L7.7 11.6 L13 11.4 Z"/></svg><span>${e(t[0])}</span>`;
         layer.appendChild(n);
-        const c = {
-            name: t[0], color: t[1], node: n,
-            x: Math.random() * innerWidth, y: Math.random() * innerHeight,
-            tx: 0, ty: 0, vx: 0, vy: 0, next: 0, target: null, idle: i * 400
-        };
-        roam(c, 0);
-        return c;
+        return { name: t[0], color: t[1], node: n, x: -60, y: 0, busy: false, leaving: false, queue: [] };
     });
 
-    function selectable() {
-        return Array.from(document.querySelectorAll('.hero__name, .hero__role, .hero__photo, .cta, .hero__stats div, .display, .project, .project h3, .tags li, .timeline li, .table div, .steps li, .note, .contact__email, .stack__belt, .mini-stats div, .nav'))
-            .filter(function (el) {
-                const r = el.getBoundingClientRect();
-                return r.bottom > 60 && r.top < innerHeight - 80 && r.width > 10;
-            });
+    const statusText = document.querySelector('.status__text');
+    function status() {
+        statusText.textContent = working ? working + (working === 1 ? ' tool working' : ' tools working') : 'Tools idle';
+        root.classList.toggle('is-working', working > 0);
     }
 
-    function roam(c, now) {
-        c.target = null;
-        c.tx = innerWidth * (.08 + Math.random() * .84);
-        c.ty = innerHeight * (.12 + Math.random() * .7);
-        c.next = now + 1500 + Math.random() * 2500;
+    const ease = function (t) { return t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; };
+
+    function animate(ms, step, done) {
+        const start = performance.now();
+        (function frame(now) {
+            const t = Math.min(1, (now - start) / ms);
+            step(t);
+            if (t < 1) requestAnimationFrame(frame);
+            else if (done) done();
+        })(start);
     }
 
-    function aim(c, now) {
-        const list = selectable();
-        if (!list.length) return roam(c, now);
-        const el = list[Math.floor(Math.random() * list.length)];
+    function setCursor(c, x, y) {
+        c.x = x;
+        c.y = y;
+        c.node.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
+    }
+
+    /* move a cursor to a point that may itself be moving (the page scrolls) */
+    function travel(c, target, ms, done) {
+        const sx = c.x, sy = c.y;
+        animate(ms, function (t) {
+            const p = target(), k = ease(t);
+            setCursor(c, sx + (p[0] - sx) * k, sy + (p[1] - sy) * k);
+        }, done);
+    }
+
+    /* without cursors, an element simply fades up into place */
+    function pop(el) {
+        el.classList.remove('is-pending');
+        el.classList.add('is-popped');
+    }
+
+    function work(c) {
+        const el = c.queue.shift();
+        if (!el) return leave(c);
         const r = el.getBoundingClientRect();
-        c.target = el;
-        c.tx = r.left + Math.min(r.width - 6, 12 + Math.random() * Math.min(160, r.width));
-        c.ty = r.top + Math.min(r.height - 4, 6 + Math.random() * Math.min(40, r.height));
-        c.next = now + 900 + Math.random() * 600;
-        c.selectAt = now + 700;
-        c.selected = false;
-    }
-
-    let on = !Kit.reduced;
-    let last = performance.now();
-    let scrollKick = 0;
-    let lastY = scrollY;
-
-    window.addEventListener('scroll', function () {
-        scrollKick += scrollY - lastY;
-        lastY = scrollY;
-    }, { passive: true });
-
-    function frame(now) {
-        const dt = Math.min(50, now - last) / 16.67;
-        last = now;
-
-        if (on) {
-            // scrolling drags the cursors a little, like a page moving under the mouse
-            const drag = scrollKick * .25;
-            scrollKick *= .6;
-            cursors.forEach(function (c) {
-                if (now < c.idle) return;
-                if (now > c.next) {
-                    if (c.target && !c.selected) { c.next = now + 200; }
-                    else if (Math.random() < .55) aim(c, now);
-                    else roam(c, now);
-                }
-                if (c.target && !c.selected && now > c.selectAt) {
-                    c.selected = true;
-                    const label = c.target.dataset.select || c.target.dataset.frame || labelFor(c.target);
-                    select(c.target, c.name + ' · ' + label, { color: c.color, life: 1300 });
-                }
-                // follow the target element while it moves with the page
-                if (c.target) {
-                    const r = c.target.getBoundingClientRect();
-                    c.tx = Math.max(8, Math.min(innerWidth - 40, r.left + 14));
-                    c.ty = Math.max(8, Math.min(innerHeight - 40, r.top + 10));
-                }
-                const k = .08 * dt;
-                c.vx = (c.vx + (c.tx - c.x) * k) * .78;
-                c.vy = (c.vy + (c.ty - c.y) * k) * .78;
-                c.x += c.vx * dt;
-                c.y += c.vy * dt - drag * .02;
-                c.node.style.transform = `translate(${c.x.toFixed(1)}px, ${c.y.toFixed(1)}px)`;
-            });
+        // gone off screen while waiting its turn: place it without ceremony
+        if (r.bottom < -80 || r.top > innerHeight + 80 || !r.width) {
+            pop(el);
+            return work(c);
         }
-        tickBoxes(now);
-        requestAnimationFrame(frame);
-    }
 
-    function labelFor(el) {
-        const tag = el.tagName.toLowerCase();
-        if (tag === 'li') return 'List item';
-        if (tag === 'a') return 'Link';
-        if (/^h\d$/.test(tag)) return 'Heading';
-        if (tag === 'figure') return 'Image';
-        return 'Frame';
-    }
+        // the element waits off to the side the cursor comes from, then is dragged in
+        const side = c.x < r.left + r.width / 2 ? -1 : 1;
+        const dx = side * (36 + Math.random() * 44), dy = 18 + Math.random() * 26;
+        const gx = Math.max(6, Math.min(r.width - 10, 16 + Math.random() * Math.min(140, r.width * .4)));
+        const gy = Math.max(4, Math.min(r.height - 6, 10 + Math.random() * Math.min(28, r.height * .5)));
+        el.style.translate = `${dx}px ${dy}px`;
+        el.classList.remove('is-pending');
+        el.classList.add('is-ghost');
 
-    requestAnimationFrame(frame);
+        const grip = function () { const q = el.getBoundingClientRect(); return [q.left + gx, q.top + gy]; };
 
-    const toggle = document.querySelector('.status__toggle');
-    function setOn(v) {
-        on = v;
-        toggle.setAttribute('aria-pressed', String(v));
-        toggle.textContent = v ? 'Cursors on' : 'Cursors off';
-        root.classList.toggle('no-cursors', !v);
-    }
-    toggle.addEventListener('click', function () { setOn(!on); });
-    setOn(on);
-
-
-    /* Intro: the hero starts as a wireframe of blue frames, then renders
-       -------------------------------------------------- */
-    function intro() {
-        if (Kit.reduced) { root.classList.add('is-built'); return; }
-        root.classList.add('is-wire');
-        const frames = Array.from(document.querySelectorAll('[data-frame]'));
-        frames.forEach(function (el, i) {
-            setTimeout(function () { select(el, el.dataset.frame, { life: 1900 - i * 110, fill: true }); }, 150 + i * 110);
+        travel(c, grip, 420, function () {
+            const box = select(el, c.name + ' · ' + el.dataset.select, c.color);
+            el.classList.remove('is-ghost');
+            c.node.classList.add('is-press');
+            setTimeout(function () {
+                animate(520, function (t) {
+                    const k = 1 - ease(t);
+                    el.style.translate = `${(dx * k).toFixed(1)}px ${(dy * k).toFixed(1)}px`;
+                    const p = grip();
+                    setCursor(c, p[0], p[1]);
+                }, function () {
+                    el.style.translate = '';
+                    c.node.classList.remove('is-press');
+                    if (el.matches('[data-count]')) countUp(el);
+                    setTimeout(function () { release(box); work(c); }, 180);
+                });
+            }, 150);
         });
+    }
+
+    /* linger briefly, then fade away */
+    function leave(c) {
+        c.leaving = true;
         setTimeout(function () {
-            root.classList.remove('is-wire');
-            root.classList.add('is-built');
-        }, 1250);
-    }
-
-
-    /* Scroll: each heading and card is selected as it arrives, then committed
-       -------------------------------------------------- */
-    function reveals() {
-        const items = document.querySelectorAll('[data-select]');
-        if (Kit.reduced || !('IntersectionObserver' in window)) {
-            items.forEach(function (el) { el.classList.add('is-in'); });
-            return;
-        }
-        const io = new IntersectionObserver(function (entries) {
-            entries.filter(function (en) { return en.isIntersecting; }).forEach(function (en, i) {
-                const el = en.target;
-                io.unobserve(el);
-                setTimeout(function () {
-                    select(el, el.dataset.select, { life: 1100, fill: true });
-                    setTimeout(function () { el.classList.add('is-in'); }, 260);
-                    if (el.matches('.record__big .display')) countUp();
-                }, i * 140);
+            if (c.queue.length) { c.leaving = false; return work(c); }
+            c.node.classList.remove('is-on');
+            travel(c, function () { return [c.x + 18, c.y + 26]; }, 400, function () {
+                c.busy = false;
+                c.leaving = false;
+                working--;
+                status();
             });
-        }, { rootMargin: '0px 0px -15% 0px' });
-        items.forEach(function (el) { io.observe(el); });
+        }, 700);
     }
 
-    function countUp() {
-        const n = document.querySelector('[data-count]');
-        if (!n || Kit.reduced) return;
+    function spawn(first, delay) {
+        // take the next free tool in turn, so the names vary
+        let c = null;
+        for (let k = 0; k < pool.length && !c; k++) {
+            const cand = pool[(toolIndex + k) % pool.length];
+            if (!cand.busy) { c = cand; toolIndex = (toolIndex + k + 1) % pool.length; }
+        }
+        if (!c) return null;
+        c.busy = true;
+        c.leaving = false;
+        c.queue = [];
+        const r = first.getBoundingClientRect();
+        const fromLeft = r.left + r.width / 2 < innerWidth / 2;
+        setCursor(c, fromLeft ? -30 : innerWidth + 10, Math.max(60, Math.min(innerHeight - 80, r.top + 40 + Math.random() * 80)));
+        working++;
+        status();
+        setTimeout(function () { c.node.classList.add('is-on'); work(c); }, delay);
+        return c;
+    }
+
+    /* hand a batch of newly visible elements to cursors */
+    function build(els) {
+        els = els.filter(function (el) { return el.classList.contains('is-pending'); });
+        if (!els.length) return;
+        if (!enabled) return els.forEach(pop);
+
+        // reuse cursors that are still at work, otherwise bring new ones in
+        let crew = pool.filter(function (c) { return c.busy && !c.leaving; });
+        const want = Math.min(MAX, els.length);
+        let delay = 0;
+        while (crew.length < want) {
+            const c = spawn(els[crew.length], delay);
+            if (!c) break;
+            crew.push(c);
+            delay += 160;
+        }
+        if (!crew.length) return els.forEach(pop);
+        els.forEach(function (el) {
+            crew.reduce(function (a, b) { return b.queue.length < a.queue.length ? b : a; }).queue.push(el);
+        });
+    }
+
+    function countUp(n) {
+        if (Kit.reduced) return;
         const start = performance.now();
         (function step(now) {
             const t = Math.min(1, (now - start) / 900);
@@ -415,12 +410,54 @@
         })(start);
     }
 
+
+    /* Wire it up: the hero is built on load, everything else as it scrolls in
+       -------------------------------------------------- */
+    const targets = Array.from(document.querySelectorAll('[data-select]'));
+    const heroTargets = targets.filter(function (el) { return el.closest('.hero'); });
+
+    if (!Kit.reduced) targets.forEach(function (el) { el.classList.add('is-pending'); });
+
+    let batch = [];
+    let batchTimer = null;
+    const io = 'IntersectionObserver' in window && !Kit.reduced ? new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+            if (en.isIntersecting) { batch.push(en.target); io.unobserve(en.target); }
+        });
+        clearTimeout(batchTimer);
+        batchTimer = setTimeout(function () {
+            // build in reading order: top to bottom, left to right
+            const list = batch.sort(function (a, b) {
+                const p = a.compareDocumentPosition(b);
+                return p & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
+            });
+            batch = [];
+            build(list);
+        }, 90);
+    }, { rootMargin: '0px 0px -12% 0px' }) : null;
+
+    function start() {
+        if (Kit.reduced) return;
+        build(heroTargets);
+        if (io) targets.filter(function (el) { return !el.closest('.hero'); }).forEach(function (el) { io.observe(el); });
+    }
+
+    const toggle = document.querySelector('.status__toggle');
+    function setEnabled(v) {
+        enabled = v;
+        toggle.setAttribute('aria-pressed', String(v));
+        toggle.textContent = v ? 'Cursors on' : 'Cursors off';
+        root.classList.toggle('no-cursors', !v);
+    }
+    toggle.addEventListener('click', function () { setEnabled(!enabled); });
+    setEnabled(enabled);
+    if (Kit.reduced) toggle.disabled = true;
+
     /* The red rule down the left edge fills as you read */
     Kit.onScroll(function (p) { root.style.setProperty('--read', p.toFixed(4)); });
 
-    const go = function () { intro(); reveals(); };
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { setTimeout(go, 120); });
-    else setTimeout(go, 120);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { setTimeout(start, 250); });
+    else setTimeout(start, 250);
 
     Kit.switcher('live');
 })();
