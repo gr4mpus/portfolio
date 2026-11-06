@@ -63,7 +63,7 @@
         <section class="hero" aria-labelledby="hero-name">
             <p class="hero__word" aria-hidden="true" data-select="Text / Portfolio">Portfolio</p>
             <figure class="hero__photo" data-select="Image / Rahul">
-                <img src="../../images/rahul-suit-photo.webp" alt="Rahul in a dark double-breasted suit, white shirt and black tie" width="960" height="1200">
+                <img src="../../images/rahul-photo-crop.webp" alt="${e(P.photoAlt)}" width="960" height="1200">
             </figure>
 
             <div class="hero__copy">
