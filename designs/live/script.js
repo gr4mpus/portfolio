@@ -63,7 +63,7 @@
         <section class="hero" aria-labelledby="hero-name">
             <p class="hero__word" aria-hidden="true" data-select="Text / Portfolio">Portfolio</p>
             <figure class="hero__photo" data-select="Image / Rahul">
-                <img src="../../images/rahul-cutout.webp" alt="${e(P.photoAlt)}" width="817" height="1600">
+                <img src="../../images/rahul-suit.webp" alt="Rahul in a dark double-breasted suit, white shirt and black tie" width="922" height="1400">
             </figure>
 
             <div class="hero__copy">
@@ -302,6 +302,16 @@
         el.classList.add('is-popped');
     }
 
+    /* The marquee: press at the top-left of the element, drag a sky-blue
+       rectangle to the bottom-right, and the element appears inside it */
+    function marquee(color) {
+        const m = document.createElement('div');
+        m.className = 'marquee';
+        if (color) m.style.setProperty('--sel', color);
+        layer.appendChild(m);
+        return m;
+    }
+
     function work(c) {
         const el = c.queue.shift();
         if (!el) return leave(c);
@@ -312,34 +322,38 @@
             return work(c);
         }
 
-        // the element waits off to the side the cursor comes from, then is dragged in
-        const side = c.x < r.left + r.width / 2 ? -1 : 1;
-        const dx = side * (36 + Math.random() * 44), dy = 18 + Math.random() * 26;
-        const gx = Math.max(6, Math.min(r.width - 10, 16 + Math.random() * Math.min(140, r.width * .4)));
-        const gy = Math.max(4, Math.min(r.height - 6, 10 + Math.random() * Math.min(28, r.height * .5)));
-        el.style.translate = `${dx}px ${dy}px`;
-        el.classList.remove('is-pending');
-        el.classList.add('is-ghost');
+        const pad = 6;
+        const corner = function () { const q = el.getBoundingClientRect(); return [q.left - pad, q.top - pad]; };
 
-        const grip = function () { const q = el.getBoundingClientRect(); return [q.left + gx, q.top + gy]; };
-
-        travel(c, grip, 420, function () {
-            const box = select(el, c.name + ' · ' + el.dataset.select, c.color);
-            el.classList.remove('is-ghost');
+        travel(c, corner, 420, function () {
             c.node.classList.add('is-press');
-            setTimeout(function () {
-                animate(520, function (t) {
-                    const k = 1 - ease(t);
-                    el.style.translate = `${(dx * k).toFixed(1)}px ${(dy * k).toFixed(1)}px`;
-                    const p = grip();
-                    setCursor(c, p[0], p[1]);
-                }, function () {
-                    el.style.translate = '';
-                    c.node.classList.remove('is-press');
-                    if (el.matches('[data-count]')) countUp(el);
-                    setTimeout(function () { release(box); work(c); }, 180);
-                });
-            }, 150);
+            const m = marquee(c.color);
+            el.classList.remove('is-pending');
+            el.classList.add('is-revealing');
+            const ms = Math.min(900, 420 + Math.sqrt(r.width * r.height) * .9);
+
+            animate(ms, function (t) {
+                const k = ease(t);
+                const q = el.getBoundingClientRect();
+                const x0 = q.left - pad, y0 = q.top - pad;
+                const w = (q.width + pad * 2) * k, h = (q.height + pad * 2) * Math.min(1, k * 1.08);
+                m.style.transform = `translate(${x0}px, ${y0}px)`;
+                m.style.width = w + 'px';
+                m.style.height = h + 'px';
+                // the element shows only inside the marquee as it grows
+                el.style.clipPath = `inset(-${pad}px ${Math.max(0, q.width + pad - w)}px ${Math.max(0, q.height + pad - h)}px -${pad}px)`;
+                setCursor(c, x0 + w, y0 + h);
+            }, function () {
+                el.style.clipPath = '';
+                el.classList.remove('is-revealing');
+                c.node.classList.remove('is-press');
+                if (el.matches('[data-count]')) countUp(el);
+                // release: the marquee fades into a selection frame with a tag
+                m.classList.add('is-done');
+                const box = select(el, c.name + ' · ' + el.dataset.select, c.color);
+                setTimeout(function () { m.remove(); }, 300);
+                setTimeout(function () { release(box); work(c); }, 380);
+            });
         });
     }
 
