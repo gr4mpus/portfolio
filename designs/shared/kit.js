@@ -21,7 +21,8 @@
         { slug: 'vaporwave', name: 'Vaporwave' },
         { slug: 'glitch', name: 'Glitch' },
         { slug: 'anti-design', name: 'Anti-design' },
-        { slug: 'ukiyo-e', name: 'Ukiyo-e' }
+        { slug: 'ukiyo-e', name: 'Ukiyo-e' },
+        { slug: 'live', name: 'Live build' }
     ];
 
     function esc(value) {
